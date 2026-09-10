@@ -102,7 +102,7 @@
                 </div>
                 <div>
                     <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Password</label>
-                    <input type="password" id="loginPass" required placeholder="••••••••••••" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-indigo-600 outline-none transition">
+                    <input type="password" id="loginPass" required placeholder="••••••••" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-indigo-600 outline-none transition">
                 </div>
                 <div id="loginError" class="text-rose-500 text-xs font-medium hidden"></div>
                 <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 transition">
@@ -110,7 +110,7 @@
                 </button>
             </form>
             <div class="mt-4 text-center text-xs text-slate-400">
-                Hint: Username <code class="bg-slate-200 dark:bg-slate-800 px-1 py-0.5 rounded text-indigo-500">Admin</code> | Pass <code class="bg-slate-200 dark:bg-slate-800 px-1 py-0.5 rounded text-indigo-500">11ko12ne13bar14</code>
+                Hint: Username <code class="bg-slate-200 dark:bg-slate-800 px-1 py-0.5 rounded text-indigo-500">Admin12345</code> | Pass <code class="bg-slate-200 dark:bg-slate-800 px-1 py-0.5 rounded text-indigo-500">1234567890</code>
             </div>
         </div>
     </div>
@@ -145,7 +145,7 @@
     <script>
         // Global State & UI Helpers
         let siteSettings = {
-            title: "My WordPress Cloud",
+            title: "@VexorNull",
             tagline: "A Full-Featured Cloud CMS built by Tanveer Hussain",
             primaryColor: "indigo",
             accentColor: "blue",
@@ -204,7 +204,7 @@
                 showNotification("Welcome Admin!", "Successfully logged into WordPress CMS Dashboard.");
                 router.navigate('dashboard');
             } else {
-                errDiv.innerText = "Invalid Username or Password. Try Admin / 11ko12ne13bar14";
+                errDiv.innerText = "Invalid Username or Password. Try Contact to admin / @vexornull ";
                 errDiv.classList.remove('hidden');
             }
         }
@@ -285,8 +285,8 @@
                     } else {
                         // Default mock posts if empty
                         posts = [
-                            { id: '1', title: 'Welcome to Cloud WordPress CMS', category: 'Announcement', date: '2026-06-01', content: 'This fully responsive content management system is engineered and styled by Tanveer Hussain (@vexornull). Enjoy lightning-fast Firebase integration.', author: 'Tanveer Hussain' },
-                            { id: '2', title: 'Mastering GitHub Pages Hosting', category: 'Tutorial', date: '2026-06-03', content: 'Learn how to separate your Firebase API keys into a secure local configuration file and publish static web apps seamlessly.', author: 'Tanveer Hussain' }
+                            { id: '1', title: 'Welcome to @vexornull CMS', category: 'Announcement', date: '2026-06-01', content: 'This fully responsive content management system is engineered and styled by Tanveer Hussain (@vexornull). Enjoy lightning-fast Firebase integration.', author: 'Tanveer Hussain' },
+                            { id: '2', title: 'Mastering Hosting', category: 'Tutorial', date: '2026-06-03', content: 'Learn how to separate your Firebase API keys into a secure local configuration file and publish static web apps seamlessly.', author: 'Tanveer Hussain' }
                         ];
                     }
                     if (router.current === 'home' || router.current === 'blog' || router.current === 'dashboard') {
@@ -308,8 +308,8 @@
             } else {
                 // Fallback demo data
                 posts = [
-                    { id: '1', title: 'Welcome to Cloud WordPress CMS', category: 'Announcement', date: '2026-06-01', content: 'This fully responsive content management system is engineered and styled by Tanveer Hussain (@vexornull).', author: 'Tanveer Hussain' },
-                    { id: '2', title: 'Mastering GitHub Pages Hosting', category: 'Tutorial', date: '2026-06-03', content: 'Learn how to separate your Firebase API keys into a secure local configuration file.', author: 'Tanveer Hussain' }
+                    { id: '1', title: 'Welcome to @vexornull', category: 'Announcement', date: '2026-06-01', content: 'This fully responsive content management system is engineered and styled by Tanveer Hussain (@vexornull).', author: 'Tanveer Hussain' },
+                    { id: '2', title: 'Mastering Hosting', category: 'Tutorial', date: '2026-06-03', content: 'Learn how to separate your Firebase API keys into a secure local configuration file.', author: 'Tanveer Hussain' }
                 ];
                 comments = [
                     { id: 'c1', postId: '1', author: 'Alex Morgan', comment: 'Amazing CMS setup! Clean design by @vexornull.', date: '2026-06-04', status: 'Approved' }
