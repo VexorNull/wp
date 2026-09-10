@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordPress CMS Portal - Developed by Tanveer Hussain</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        wpBlue: '#2271b1',
+                        wpDarkBlue: '#135e96',
+                        wpGrayBg: '#f0f0f1',
+                        wpDarkBg: '#10172a',
+                        wpDarkCard: '#1e293b'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2271b1;
+            border-radius: 4px;
+        }
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-wpGrayBg text-gray-800 dark:bg-wpDarkBg dark:text-gray-100 min-h-screen flex flex-col justify-between transition-colors duration-200">
+
+    <!-- WordPress Top Header / Admin Bar -->
+    <header class="bg-gray-900 text-white shadow-md sticky top-0 z-40 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Left: WordPress Brand -->
+                <div class="flex items-center space-x-3">
+                    <div class="bg-wpBlue text-white p-2 rounded-lg flex items-center justify-center shadow-md">
+                        <i class="fa-brands fa-wordpress text-2xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="font-bold text-lg leading-tight">WordPress CMS</h1>
+                            <span id="adminBadge" class="hidden bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs px-2 py-0.5 rounded-full font-semibold">
+                                <i class="fa-solid fa-shield-halved text-xs mr-1"></i>Admin Mode
+                            </span>
+                        </div>
+                        <p class="text-xs text-gray-400">Realtime Firebase Portal</p>
+                    </div>
+                </div>
+
+                <!-- Right: Theme, Auth status & Actions -->
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <button id="themeToggleBtn" class="p-2.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-yellow-400 focus:outline-none transition border border-gray-700" title="Toggle Theme">
+                        <i id="themeIcon" class="fa-solid fa-sun text-base"></i>
+                    </button>
+
+                    <!-- Non-Logged In State Button -->
+                    <button id="openLoginModalBtn" class="bg-gray-800 hover:bg-gray-700 text-gray-200 border border-gray-700 font-medium px-3.5 py-2 rounded-lg text-sm flex items-center space-x-2 transition">
+                        <i class="fa-solid fa-right-to-bracket text-wpBlue"></i>
+                        <span class="hidden sm:inline">Admin Login</span>
+                    </button>
+
+                    <!-- Logged In Admin Controls (Hidden by default) -->
+                    <div id="adminActionControls" class="hidden flex items-center space-x-2 sm:space-x-3">
+                        <button id="openPostModalBtn" class="bg-wpBlue hover:bg-wpDarkBlue text-white font-medium px-3.5 py-2 rounded-lg text-sm flex items-center space-x-2 shadow-sm transition transform active:scale-95">
+                            <i class="fa-solid fa-plus"></i>
+                            <span class="hidden sm:inline">Add New Post</span>
+                            <span class="sm:hidden">New</span>
+                        </button>
+                        <button id="logoutBtn" class="bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/30 font-medium px-3 py-2 rounded-lg text-sm flex items-center space-x-1.5 transition" title="Log Out Admin">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            <span class="hidden sm:inline">Logout</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+        
+        <!-- Welcome Banner & Status -->
+        <div class="mb-8 bg-white dark:bg-wpDarkCard rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700/80 transition">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white flex items-center gap-2">
+                        <span>Articles & Blog Stream</span>
+                    </h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        Explore blog posts published in realtime. <span id="adminNoticeText">Log in as <strong class="text-wpBlue">Admin</strong> to manage posts.</span>
+                    </p>
+                </div>
+
+                <!-- Global Search & Category Filters -->
+                <div class="flex flex-col sm:flex-row items-center gap-3">
+                    <div class="relative w-full sm:w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400 text-sm"></i>
+                        <input type="text" id="searchInput" placeholder="Search articles..." class="w-full pl-9 pr-4 py-2 text-sm bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-wpBlue focus:outline-none text-gray-800 dark:text-gray-100">
+                    </div>
+
+                    <select id="categoryFilter" class="w-full sm:w-44 py-2 px-3 text-sm bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-wpBlue focus:outline-none text-gray-800 dark:text-gray-100">
+                        <option value="All">All Categories</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Design">Design</option>
+                        <option value="Lifestyle">Lifestyle</option>
+                        <option value="Business">Business</option>
+                        <option value="General">General</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Posts Bar -->
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                Published Posts (<span id="postCount">0</span>)
+            </h3>
+            <span class="inline-flex items-center text-xs font-medium px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">
+                <span class="w-2 h-2 mr-2 bg-emerald-500 rounded-full animate-pulse"></span> Firebase Realtime Connected
+            </span>
+        </div>
+
+        <!-- Layout Grid: Posts + Sidebar -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left 2-Columns: Dynamic Posts Grid -->
+            <div class="lg:col-span-2">
+                <div id="postsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Dynamic Post Cards injected here -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="hidden flex-col items-center justify-center py-16 bg-white dark:bg-wpDarkCard rounded-xl border border-dashed border-gray-300 dark:border-gray-700 text-center">
+                    <div class="w-16 h-16 bg-blue-50 dark:bg-gray-800 text-wpBlue rounded-full flex items-center justify-center mb-4 text-2xl">
+                        <i class="fa-regular fa-newspaper"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">No Posts Found</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm">No blog posts match your filter or the database is currently empty.</p>
+                    <button id="emptyAddBtn" class="hidden mt-4 bg-wpBlue hover:bg-wpDarkBlue text-white text-sm px-4 py-2 rounded-lg font-medium transition">
+                        Create First Post
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Column: Sidebar Widgets -->
+            <aside class="space-y-6">
+                <!-- Admin Bio Widget -->
+                <div class="bg-white dark:bg-wpDarkCard rounded-xl p-5 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Tanveer Hussain" class="w-14 h-14 rounded-full object-cover border-2 border-wpBlue">
+                        <div>
+                            <h4 class="font-bold text-gray-900 dark:text-white">Tanveer Hussain</h4>
+                            <p class="text-xs text-wpBlue font-medium">Lead Developer & Author</p>
+                            <a href="https://github.com/vexornull" target="_blank" class="text-xs text-gray-500 hover:underline">@vexornull</a>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+                        Welcome to our real-time portal built with Firebase Realtime Database and Tailwind CSS.
+                    </p>
+                    <div class="mt-4 pt-3 border-t border-gray-100 dark:border-gray-700 flex justify-around">
+                        <a href="https://github.com/vexornull" target="_blank" class="text-gray-500 hover:text-wpBlue transition text-sm">
+                            <i class="fa-brands fa-github text-lg"></i>
+                        </a>
+                        <a href="https://github.com/vexornull" target="_blank" class="text-gray-500 hover:text-wpBlue transition text-sm">
+                            <i class="fa-brands fa-x-twitter text-lg"></i>
+                        </a>
+                        <a href="https://github.com/vexornull" target="_blank" class="text-gray-500 hover:text-wpBlue transition text-sm">
+                            <i class="fa-brands fa-linkedin text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Recent Posts Widget -->
+                <div class="bg-white dark:bg-wpDarkCard rounded-xl p-5 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <h4 class="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left text-wpBlue"></i> Recent Posts
+                    </h4>
+                    <ul id="recentPostsList" class="space-y-3 text-sm">
+                        <!-- Injected via JS -->
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Admin Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
+        <div class="bg-white dark:bg-wpDarkCard w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700 transform transition-all scale-95 duration-200" id="loginModalContainer">
+            <div class="px-6 py-5 bg-gray-900 text-white flex justify-between items-center border-b border-gray-800">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-lock text-wpBlue text-lg"></i>
+                    <h3 class="font-bold text-base">WordPress Admin Login</h3>
+                </div>
+                <button id="closeLoginModalBtn" class="text-gray-400 hover:text-white text-xl font-bold">&times;</button>
+            </div>
+            <form id="loginForm" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 dark:text-gray-300 mb-1">Username</label>
+                    <input type="text" id="loginUsername" required placeholder="Enter admin username..." class="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-wpBlue focus:outline-none text-sm text-gray-900 dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 dark:text-gray-300 mb-1">Password</label>
+                    <input type="password" id="loginPassword" required placeholder="Enter password..." class="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-wpBlue focus:outline-none text-sm text-gray-900 dark:text-white">
+                </div>
+                <div id="loginErrorMsg" class="hidden text-xs text-red-500 font-medium bg-red-100 dark:bg-red-900/30 p-2.5 rounded-lg border border-red-300 dark:border-red-800">
+                    Invalid username or password.
+                </div>
+                <button type="submit" class="w-full py-2.5 bg-wpBlue hover:bg-wpDarkBlue text-white font-medium rounded-lg text-sm transition shadow-md flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span>Log In to Dashboard</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Create / Edit Post Modal -->
+    <div id="postModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
+        <div class="bg-white dark:bg-wpDarkCard w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700 transform transition-all scale-95 duration-200" id="modalContainer">
+            
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center bg-gray-50 dark:bg-gray-800">
+                <h3 id="modalTitle" class="text-lg font-bold text-gray-800 dark:text-gray-100 flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square text-wpBlue"></i> Create New Post
+                </h3>
+                <button id="closePostModalBtn" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl font-bold focus:outline-none">&times;</button>
+            </div>
+
+            <form id="postForm" class="p-6 space-y-4">
+                <input type="hidden" id="postId">
+
+                <div>
+                    <label for="postTitle" class="block text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-300 mb-1">Post Title *</label>
+                    <input type="text" id="postTitle" required placeholder="Enter post title..." class="w-full px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-wpBlue focus:outline-none text-gray-800 dark:text-gray-100 text-sm">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="postCategory" class="block text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-300 mb-1">Category *</label>
+                        <select id="postCategory" required class="w-full px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-wpBlue focus:outline-none text-gray-800 dark:text-gray-100 text-sm">
+                            <option value="Technology">Technology</option>
+                            <option value="Design">Design</option>
+                            <option value="Lifestyle">Lifestyle</option>
+                            <option value="Business">Business</option>
+                            <option value="General">General</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="postAuthor" class="block text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-300 mb-1">Author Name *</label>
+                        <input type="text" id="postAuthor" required placeholder="e.g. Tanveer Hussain" class="w-full px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-wpBlue focus:outline-none text-gray-800 dark:text-gray-100 text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="postImage" class="block text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-300 mb-1">Featured Image URL (Optional)</label>
+                    <input type="url" id="postImage" placeholder="https://images.unsplash.com/photo-..." class="w-full px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-wpBlue focus:outline-none text-gray-800 dark:text-gray-100 text-sm">
+                </div>
+
+                <div>
+                    <label for="postContent" class="block text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-300 mb-1">Post Content *</label>
+                    <textarea id="postContent" rows="5" required placeholder="Write your post content here..." class="w-full px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-wpBlue focus:outline-none text-gray-800 dark:text-gray-100 text-sm resize-none"></textarea>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+                    <button type="button" id="cancelModalBtn" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-sm font-medium rounded-lg transition">Cancel</button>
+                    <button type="submit" id="savePostBtn" class="px-5 py-2 bg-wpBlue hover:bg-wpDarkBlue text-white text-sm font-medium rounded-lg flex items-center space-x-2 transition shadow">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>Publish Post</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Read & Comment Modal -->
+    <div id="readModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
+        <div class="bg-white dark:bg-wpDarkCard w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700 max-h-[90vh] flex flex-col transform transition-all scale-95 duration-200" id="readModalContainer">
+            <div class="p-6 overflow-y-auto flex-grow space-y-4">
+                <div class="flex justify-between items-start">
+                    <span id="readCategory" class="text-xs font-semibold px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300"></span>
+                    <button id="closeReadModalBtn" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-2xl font-bold">&times;</button>
+                </div>
+                <h2 id="readTitle" class="text-2xl font-bold text-gray-900 dark:text-white"></h2>
+                <div class="flex items-center text-xs text-gray-500 dark:text-gray-400 space-x-3">
+                    <span><i class="fa-solid fa-user-pen mr-1"></i><span id="readAuthor"></span></span>
+                    <span>&bull;</span>
+                    <span><i class="fa-regular fa-calendar mr-1"></i><span id="readDate"></span></span>
+                </div>
+                <img id="readImage" src="" alt="" class="w-full h-64 object-cover rounded-xl my-4">
+                <p id="readContent" class="text-sm leading-relaxed text-gray-700 dark:text-gray-200 whitespace-pre-line"></p>
+
+                <hr class="my-6 border-gray-200 dark:border-gray-700">
+
+                <!-- Comments Section -->
+                <div>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-comments text-wpBlue"></i> Comments
+                    </h3>
+                    <div id="commentsContainer" class="space-y-3 mb-6">
+                        <!-- Injected via JS -->
+                    </div>
+
+                    <!-- Add Comment Form -->
+                    <form id="commentForm" class="space-y-3 bg-gray-50 dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
+                        <input type="hidden" id="readPostKey">
+                        <input type="text" id="commentAuthor" required placeholder="Your Name..." class="w-full px-3 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none">
+                        <textarea id="commentText" rows="2" required placeholder="Write a comment..." class="w-full px-3 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none resize-none"></textarea>
+                        <button type="submit" class="bg-wpBlue hover:bg-wpDarkBlue text-white text-xs font-semibold px-4 py-2 rounded-lg transition">Post Comment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2"></div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-6 border-t border-gray-800 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+                <p class="text-sm font-medium text-gray-300">&copy; <span id="yearSpan"></span> WordPress Realtime Portal.</p>
+                <p class="text-xs text-gray-500 mt-0.5">Firebase Realtime Database & Tailwind CSS</p>
+            </div>
+            <div class="flex items-center space-x-2 text-sm">
+                <span>Designed & Developed by</span>
+                <a href="https://github.com/vexornull" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1.5 font-semibold text-wpBlue hover:text-blue-400 bg-gray-800 px-3 py-1 rounded-full border border-gray-700 transition">
+                    <i class="fa-brands fa-github text-white text-xs"></i>
+                    <span>Tanveer Hussain</span>
+                    <span class="text-xs text-gray-400">(@vexornull)</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Script -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, push, set, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Provided Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAP2fvQksImno3ONsZJShgGIHsKc1EU8KM",
+            authDomain: "wordpress-c971f.firebaseapp.com",
+            databaseURL: "https://wordpress-c971f-default-rtdb.firebaseio.com",
+            projectId: "wordpress-c971f",
+            storageBucket: "wordpress-c971f.firebasestorage.app",
+            messagingSenderId: "828580995189",
+            appId: "1:828580995189:web:b79bcdc6fd60f441ce983c",
+            measurementId: "G-CQQEJLR5TY"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const postsRef = ref(db, 'posts');
+
+        // State
+        let allPosts = [];
+        let isAdminLoggedIn = localStorage.getItem('wp_admin_logged_in') === 'true';
+
+        // DOM Elements
+        const postsGrid = document.getElementById('postsGrid');
+        const emptyState = document.getElementById('emptyState');
+        const postCount = document.getElementById('postCount');
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const recentPostsList = document.getElementById('recentPostsList');
+        
+        // Admin & Login DOM
+        const openLoginModalBtn = document.getElementById('openLoginModalBtn');
+        const closeLoginModalBtn = document.getElementById('closeLoginModalBtn');
+        const loginModal = document.getElementById('loginModal');
+        const loginModalContainer = document.getElementById('loginModalContainer');
+        const loginForm = document.getElementById('loginForm');
+        const loginUsername = document.getElementById('loginUsername');
+        const loginPassword = document.getElementById('loginPassword');
+        const loginErrorMsg = document.getElementById('loginErrorMsg');
+        const adminBadge = document.getElementById('adminBadge');
+        const adminActionControls = document.getElementById('adminActionControls');
+        const adminNoticeText = document.getElementById('adminNoticeText');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        // Post Modal DOM
+        const postModal = document.getElementById('postModal');
+        const modalContainer = document.getElementById('modalContainer');
+        const postForm = document.getElementById('postForm');
+        const modalTitle = document.getElementById('modalTitle');
+        const postIdInput = document.getElementById('postId');
+        const postTitleInput = document.getElementById('postTitle');
+        const postCategoryInput = document.getElementById('postCategory');
+        const postAuthorInput = document.getElementById('postAuthor');
+        const postImageInput = document.getElementById('postImage');
+        const postContentInput = document.getElementById('postContent');
+        const openPostModalBtn = document.getElementById('openPostModalBtn');
+        const closePostModalBtn = document.getElementById('closePostModalBtn');
+        const cancelModalBtn = document.getElementById('cancelModalBtn');
+        const emptyAddBtn = document.getElementById('emptyAddBtn');
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+
+        // Read Modal DOM
+        const readModal = document.getElementById('readModal');
+        const readModalContainer = document.getElementById('readModalContainer');
+        const closeReadModalBtn = document.getElementById('closeReadModalBtn');
+        const readTitle = document.getElementById('readTitle');
+        const readCategory = document.getElementById('readCategory');
+        const readAuthor = document.getElementById('readAuthor');
+        const readDate = document.getElementById('readDate');
+        const readImage = document.getElementById('readImage');
+        const readContent = document.getElementById('readContent');
+        const readPostKey = document.getElementById('readPostKey');
+        const commentsContainer = document.getElementById('commentsContainer');
+        const commentForm = document.getElementById('commentForm');
+        const commentAuthor = document.getElementById('commentAuthor');
+        const commentText = document.getElementById('commentText');
+
+        document.getElementById('yearSpan').textContent = new Date().getFullYear();
+
+        // Theme Setup
+        const initTheme = () => {
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                themeIcon.className = 'fa-solid fa-moon text-base';
+            } else {
+                document.documentElement.classList.remove('dark');
+                themeIcon.className = 'fa-solid fa-sun text-base';
+            }
+        };
+        initTheme();
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+                themeIcon.className = 'fa-solid fa-sun text-base';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+                themeIcon.className = 'fa-solid fa-moon text-base';
+            }
+        });
+
+        // Update Admin UI state
+        const updateAdminStateUI = () => {
+            if (isAdminLoggedIn) {
+                adminBadge.classList.remove('hidden');
+                adminActionControls.classList.remove('hidden');
+                openLoginModalBtn.classList.add('hidden');
+                emptyAddBtn.classList.remove('hidden');
+                adminNoticeText.innerHTML = '<span class="text-emerald-500 font-medium">Logged in as Admin. You have full access to publish, edit, and delete posts.</span>';
+            } else {
+                adminBadge.classList.add('hidden');
+                adminActionControls.classList.add('hidden');
+                openLoginModalBtn.classList.remove('hidden');
+                emptyAddBtn.classList.add('hidden');
+                adminNoticeText.innerHTML = 'Log in as <strong class="text-wpBlue">Admin</strong> to publish or manage posts.';
+            }
+            renderPosts();
+        };
+
+        // Login System logic
+        openLoginModalBtn.addEventListener('click', () => {
+            loginModal.classList.remove('hidden');
+            setTimeout(() => {
+                loginModal.classList.remove('opacity-0');
+                loginModalContainer.classList.remove('scale-95');
+                loginModalContainer.classList.add('scale-100');
+            }, 10);
+        });
+
+        const closeLoginModal = () => {
+            loginModal.classList.add('opacity-0');
+            loginModalContainer.classList.remove('scale-100');
+            loginModalContainer.classList.add('scale-95');
+            setTimeout(() => {
+                loginModal.classList.add('hidden');
+                loginForm.reset();
+                loginErrorMsg.classList.add('hidden');
+            }, 200);
+        };
+
+        closeLoginModalBtn.addEventListener('click', closeLoginModal);
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = loginUsername.value.trim();
+            const password = loginPassword.value.trim();
+
+            if (username === 'Admin' && password === '11ko12ne13bar14') {
+                isAdminLoggedIn = true;
+                localStorage.setItem('wp_admin_logged_in', 'true');
+                updateAdminStateUI();
+                closeLoginModal();
+                showToast('Welcome back, Admin!');
+            } else {
+                loginErrorMsg.classList.remove('hidden');
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            isAdminLoggedIn = false;
+            localStorage.removeItem('wp_admin_logged_in');
+            updateAdminStateUI();
+            showToast('Logged out successfully.');
+        });
+
+        // Modal functions for Post creation/editing
+        const openModal = (isEdit = false, postData = null, key = null) => {
+            if (!isAdminLoggedIn) {
+                showToast('Admin authentication required.', 'error');
+                return;
+            }
+            postModal.classList.remove('hidden');
+            setTimeout(() => {
+                postModal.classList.remove('opacity-0');
+                modalContainer.classList.remove('scale-95');
+                modalContainer.classList.add('scale-100');
+            }, 10);
+
+            if (isEdit && postData && key) {
+                modalTitle.innerHTML = '<i class="fa-solid fa-pen-to-square text-wpBlue"></i> Edit Post';
+                postIdInput.value = key;
+                postTitleInput.value = postData.title || '';
+                postCategoryInput.value = postData.category || 'General';
+                postAuthorInput.value = postData.author || '';
+                postImageInput.value = postData.imageUrl || '';
+                postContentInput.value = postData.content || '';
+            } else {
+                modalTitle.innerHTML = '<i class="fa-solid fa-plus text-wpBlue"></i> Create New Post';
+                postForm.reset();
+                postIdInput.value = '';
+                postAuthorInput.value = 'Tanveer Hussain';
+            }
+        };
+
+        const closeModal = () => {
+            postModal.classList.add('opacity-0');
+            modalContainer.classList.remove('scale-100');
+            modalContainer.classList.add('scale-95');
+            setTimeout(() => {
+                postModal.classList.add('hidden');
+                postForm.reset();
+            }, 200);
+        };
+
+        openPostModalBtn.addEventListener('click', () => openModal(false));
+        emptyAddBtn.addEventListener('click', () => openModal(false));
+        closePostModalBtn.addEventListener('click', closeModal);
+        cancelModalBtn.addEventListener('click', closeModal);
+
+        // Toast Notification System
+        const showToast = (message, type = 'success') => {
+            const toast = document.createElement('div');
+            const bgClass = type === 'success' ? 'bg-gray-900 border-l-4 border-emerald-500 text-white' : 'bg-gray-900 border-l-4 border-red-500 text-white';
+            const icon = type === 'success' ? 'fa-check-circle text-emerald-400' : 'fa-circle-exclamation text-red-400';
+
+            toast.className = `flex items-center space-x-3 px-4 py-3 rounded-lg shadow-xl text-sm transition-all duration-300 transform translate-y-2 opacity-0 ${bgClass}`;
+            toast.innerHTML = `<i class="fa-solid ${icon} text-lg"></i><span class="font-medium">${message}</span>`;
+
+            document.getElementById('toastContainer').appendChild(toast);
+
+            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        };
+
+        // Submit Post (Admin Only)
+        postForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!isAdminLoggedIn) {
+                showToast('Unauthorized access', 'error');
+                return;
+            }
+
+            const key = postIdInput.value;
+            const title = postTitleInput.value.trim();
+            const category = postCategoryInput.value;
+            const author = postAuthorInput.value.trim();
+            const imageUrl = postImageInput.value.trim() || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=800&q=80';
+            const content = postContentInput.value.trim();
+
+            try {
+                if (key) {
+                    const singlePostRef = ref(db, `posts/${key}`);
+                    await update(singlePostRef, {
+                        title, category, author, imageUrl, content, updatedAt: Date.now()
+                    });
+                    showToast('Post updated successfully!');
+                } else {
+                    const newPostRef = push(postsRef);
+                    await set(newPostRef, {
+                        title, category, author, imageUrl, content, timestamp: Date.now(), comments: {}
+                    });
+                    showToast('New post published live!');
+                }
+                closeModal();
+            } catch (error) {
+                console.error("Firebase Error:", error);
+                showToast('Failed to save post.', 'error');
+            }
+        });
+
+        // Delete Post (Admin Only)
+        window.deletePost = async (key) => {
+            if (!isAdminLoggedIn) {
+                showToast('Only admins can delete posts.', 'error');
+                return;
+            }
+            if (confirm('Are you sure you want to delete this post?')) {
+                try {
+                    await remove(ref(db, `posts/${key}`));
+                    showToast('Post deleted successfully!');
+                } catch (error) {
+                    showToast('Error deleting post.', 'error');
+                }
+            }
+        };
+
+        window.editPost = (key) => {
+            const postObj = allPosts.find(p => p.id === key);
+            if (postObj) openModal(true, postObj.data, key);
+        };
+
+        // Open Post Reader Modal
+        window.openReadModal = (key) => {
+            const postObj = allPosts.find(p => p.id === key);
+            if (!postObj) return;
+
+            const d = postObj.data;
+            readPostKey.value = key;
+            readTitle.textContent = d.title;
+            readCategory.textContent = d.category || 'General';
+            readAuthor.textContent = d.author || 'Anonymous';
+            readDate.textContent = formatDate(d.timestamp);
+            readImage.src = d.imageUrl;
+            readContent.textContent = d.content;
+
+            renderComments(d.comments);
+
+            readModal.classList.remove('hidden');
+            setTimeout(() => {
+                readModal.classList.remove('opacity-0');
+                readModalContainer.classList.remove('scale-95');
+                readModalContainer.classList.add('scale-100');
+            }, 10);
+        };
+
+        closeReadModalBtn.addEventListener('click', () => {
+            readModal.classList.add('opacity-0');
+            readModalContainer.classList.remove('scale-100');
+            readModalContainer.classList.add('scale-95');
+            setTimeout(() => readModal.classList.add('hidden'), 200);
+        });
+
+        // Render & Submit Comments
+        const renderComments = (commentsObj) => {
+            if (!commentsObj) {
+                commentsContainer.innerHTML = '<p class="text-xs text-gray-400 italic">No comments yet. Be the first!</p>';
+                return;
+            }
+            const list = Object.values(commentsObj);
+            commentsContainer.innerHTML = list.map(c => `
+                <div class="bg-gray-100 dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-700/60">
+                    <div class="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 mb-1">
+                        <span class="font-semibold text-gray-800 dark:text-gray-200">${c.author}</span>
+                        <span>${formatDate(c.timestamp)}</span>
+                    </div>
+                    <p class="text-xs text-gray-700 dark:text-gray-300">${c.text}</p>
+                </div>
+            `).join('');
+        };
+
+        commentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const key = readPostKey.value;
+            const author = commentAuthor.value.trim();
+            const text = commentText.value.trim();
+
+            if (!key || !author || !text) return;
+
+            const commentRef = push(ref(db, `posts/${key}/comments`));
+            await set(commentRef, { author, text, timestamp: Date.now() });
+
+            commentText.value = '';
+            showToast('Comment posted!');
+        });
+
+        const formatDate = (timestamp) => {
+            if (!timestamp) return 'Just now';
+            return new Date(timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        };
+
+        const getCategoryBadge = (category) => {
+            const styles = {
+                'Technology': 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
+                'Design': 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
+                'Lifestyle': 'bg-pink-100 text-pink-800 dark:bg-pink-900/40 dark:text-pink-300',
+                'Business': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300',
+                'General': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+            };
+            return styles[category] || styles['General'];
+        };
+
+        // Render Posts Grid & Recent Widget
+        const renderPosts = () => {
+            const searchQuery = searchInput.value.toLowerCase();
+            const selectedCategory = categoryFilter.value;
+
+            const filteredPosts = allPosts.filter(post => {
+                const matchesSearch = post.data.title?.toLowerCase().includes(searchQuery) ||
+                                      post.data.content?.toLowerCase().includes(searchQuery) ||
+                                      post.data.author?.toLowerCase().includes(searchQuery);
+                const matchesCategory = selectedCategory === 'All' || post.data.category === selectedCategory;
+                return matchesSearch && matchesCategory;
+            });
+
+            postCount.textContent = filteredPosts.length;
+
+            // Render Recent Widget
+            recentPostsList.innerHTML = allPosts.slice(0, 5).map(p => `
+                <li class="cursor-pointer hover:text-wpBlue transition line-clamp-1 border-b border-gray-100 dark:border-gray-800 pb-2" onclick="openReadModal('${p.id}')">
+                    <i class="fa-solid fa-angle-right text-xs text-wpBlue mr-1"></i> ${p.data.title}
+                </li>
+            `).join('') || '<li class="text-xs text-gray-400">No posts available</li>';
+
+            if (filteredPosts.length === 0) {
+                postsGrid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            emptyState.classList.remove('flex');
+
+            postsGrid.innerHTML = filteredPosts.map(post => {
+                const { id, data } = post;
+                const commentCount = data.comments ? Object.keys(data.comments).length : 0;
+
+                return `
+                    <article class="bg-white dark:bg-wpDarkCard rounded-xl shadow-sm border border-gray-200 dark:border-gray-700/80 overflow-hidden hover:shadow-md transition duration-200 flex flex-col justify-between">
+                        <div>
+                            <div class="relative h-44 w-full bg-gray-100 dark:bg-gray-800 overflow-hidden cursor-pointer" onclick="openReadModal('${id}')">
+                                <img src="${data.imageUrl}" alt="${data.title}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=800&q=80';">
+                                <span class="absolute top-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-md shadow-sm ${getCategoryBadge(data.category)}">
+                                    ${data.category || 'General'}
+                                </span>
+                            </div>
+
+                            <div class="p-5">
+                                <div class="flex items-center text-xs text-gray-500 dark:text-gray-400 space-x-2 mb-2">
+                                    <span class="font-medium text-gray-700 dark:text-gray-300"><i class="fa-solid fa-user-pen mr-1"></i>${data.author || 'Anonymous'}</span>
+                                    <span>&bull;</span>
+                                    <span><i class="fa-regular fa-calendar mr-1"></i>${formatDate(data.timestamp)}</span>
+                                </div>
+                                <h4 class="text-base font-bold text-gray-900 dark:text-gray-100 mb-2 hover:text-wpBlue transition line-clamp-2 cursor-pointer" onclick="openReadModal('${id}')">
+                                    ${data.title}
+                                </h4>
+                                <p class="text-xs text-gray-600 dark:text-gray-300 line-clamp-3 leading-relaxed">
+                                    ${data.content}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="px-5 py-3 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-100 dark:border-gray-700/60 flex items-center justify-between">
+                            <button onclick="openReadModal('${id}')" class="text-xs text-wpBlue font-semibold hover:underline flex items-center gap-1">
+                                <i class="fa-solid fa-book-open"></i> Read Article (${commentCount})
+                            </button>
+                            
+                            ${isAdminLoggedIn ? `
+                                <div class="flex space-x-2">
+                                    <button onclick="editPost('${id}')" class="px-2.5 py-1 text-xs font-medium text-wpBlue hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded transition">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+                                    <button onclick="deletePost('${id}')" class="px-2.5 py-1 text-xs font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded transition">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        };
+
+        // Realtime Firebase Listener
+        onValue(postsRef, (snapshot) => {
+            const data = snapshot.val();
+            allPosts = [];
+
+            if (data) {
+                Object.keys(data).forEach(key => {
+                    allPosts.push({ id: key, data: data[key] });
+                });
+                allPosts.sort((a, b) => (b.data.timestamp || 0) - (a.data.timestamp || 0));
+            }
+
+            renderPosts();
+            
+            // Sync current open read modal comments if active
+            if (!readModal.classList.contains('hidden') && readPostKey.value) {
+                const currentPost = allPosts.find(p => p.id === readPostKey.value);
+                if (currentPost) renderComments(currentPost.data.comments);
+            }
+        }, (error) => {
+            console.error("Firebase Listener Error:", error);
+            showToast('Error loading live posts.', 'error');
+        });
+
+        // Event Listeners
+        searchInput.addEventListener('input', renderPosts);
+        categoryFilter.addEventListener('change', renderPosts);
+
+        // Initial UI trigger
+        updateAdminStateUI();
+    </script>
+</body>
+</html>
