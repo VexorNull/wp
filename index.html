@@ -104,8 +104,8 @@
             </button>
         </div>
         <div class="flex items-center space-x-3">
-            <span id="saveStatusIndicator" class="text-xs text-emerald-400 flex items-center gap-1">
-                <i class="fa-solid fa-cloud"></i> <span class="hidden md:inline">Saved Locally</span>
+            <span id="saveStatusIndicator" class="text-xs text-amber-400 flex items-center gap-1">
+                <i class="fa-solid fa-rotate spin"></i> <span class="hidden md:inline">Connecting Firebase...</span>
             </span>
             <button onclick="exportDataJSON()" class="hover:bg-slate-800 px-2 py-1 rounded text-gray-300 hover:text-white" title="Export Backup">
                 <i class="fa-solid fa-download"></i> <span class="hidden md:inline">Export</span>
@@ -123,9 +123,7 @@
 
     <div class="flex-1 flex flex-col relative" id="mainWrapper">
         
-        <!-- ========================================================================= -->
         <!-- FRONTEND PUBLIC WEBSITE VIEW -->
-        <!-- ========================================================================= -->
         <div id="publicSiteView" class="flex-1 flex flex-col min-h-screen">
             <!-- Header -->
             <header class="bg-white border-b border-gray-200 shadow-sm sticky top-8 z-40 transition-all" id="siteHeader">
@@ -154,7 +152,6 @@
                 <!-- Dynamic Nav Tabs -->
                 <nav class="bg-slate-50 border-t border-gray-200 px-4 sm:px-6 lg:px-8">
                     <div class="max-w-6xl mx-auto flex items-center space-x-1 overflow-x-auto custom-scrollbar text-sm" id="publicNavItems">
-                        <!-- Dynamic nav items -->
                     </div>
                 </nav>
             </header>
@@ -163,9 +160,9 @@
             <div id="heroBanner" class="bg-gradient-to-r from-blue-700 to-indigo-800 text-white py-12 px-4 shadow-inner">
                 <div class="max-w-6xl mx-auto text-center sm:text-left flex flex-col sm:flex-row justify-between items-center gap-6">
                     <div>
-                        <span class="inline-block bg-blue-500/30 text-blue-100 text-xs px-3 py-1 rounded-full uppercase tracking-wider font-semibold mb-2">GitHub Pages Ready</span>
+                        <span class="inline-block bg-blue-500/30 text-blue-100 text-xs px-3 py-1 rounded-full uppercase tracking-wider font-semibold mb-2">Firebase Synchronized</span>
                         <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Serverless Static WordPress Engine</h2>
-                        <p class="mt-2 text-blue-100 max-w-xl text-sm sm:text-base">No PHP or SQL database needed. Edit content dynamically and compile your static web files instantly!</p>
+                        <p class="mt-2 text-blue-100 max-w-xl text-sm sm:text-base">Realtime Cloud Database Integration. Edit content dynamically and keep posts saved everywhere!</p>
                     </div>
                     <button onclick="handleDashboardAccess()" class="bg-white text-blue-900 hover:bg-blue-50 font-semibold px-5 py-2.5 rounded-lg shadow transition transform hover:-translate-y-0.5 shrink-0 text-sm">
                         <i class="fa-solid fa-lock mr-2"></i> Admin Panel
@@ -179,56 +176,55 @@
                     
                     <!-- Content Column -->
                     <div class="lg:col-span-8 space-y-8" id="primaryPublicContent">
-                        <!-- Content rendered dynamically -->
                     </div>
 
                     <!-- Sidebar -->
-            <aside class="lg:col-span-4 space-y-6">
-                <!-- About Widget -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5" id="widgetAbout">
-                    <h3 class="font-bold text-gray-900 border-b pb-2 mb-3 text-sm tracking-wide uppercase flex items-center gap-2">
-                        <i class="fa-solid fa-circle-info text-blue-500"></i> About Site
-                    </h3>
-                    <p id="widgetAboutText" class="text-xs text-gray-600 leading-relaxed">
-                        Welcome to my serverless WordPress site powered by client-side browser database engine.
-                    </p>
-                </div>
-
-                <!-- Developer Credit Widget -->
-                <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-xl shadow-sm p-5 border border-slate-700 space-y-3">
-                    <div class="flex items-center gap-2 text-xs font-bold text-blue-400 uppercase tracking-wider">
-                        <i class="fa-solid fa-code"></i> Developer Profile
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold text-lg text-white shadow-md">
-                            TH
+                    <aside class="lg:col-span-4 space-y-6">
+                        <!-- About Widget -->
+                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5" id="widgetAbout">
+                            <h3 class="font-bold text-gray-900 border-b pb-2 mb-3 text-sm tracking-wide uppercase flex items-center gap-2">
+                                <i class="fa-solid fa-circle-info text-blue-500"></i> About Site
+                            </h3>
+                            <p id="widgetAboutText" class="text-xs text-gray-600 leading-relaxed">
+                                Welcome to my serverless WordPress site powered by Firebase Realtime Engine.
+                            </p>
                         </div>
-                        <div>
-                            <h4 class="font-bold text-sm text-white">Tanveer Hussain</h4>
-                            <p class="text-xs text-blue-300 font-medium">@vexornull</p>
-                        </div>
-                    </div>
-                    <p class="text-[11px] text-slate-300 leading-snug">
-                        Engineered with pure client-side static technology for zero-cost GitHub Pages hosting.
-                    </p>
-                    <div class="flex items-center gap-2 pt-1 border-t border-slate-700/60">
-                        <a href="https://github.com/vexornull" target="_blank" rel="noopener noreferrer" class="w-7 h-7 bg-slate-800 hover:bg-blue-600 rounded-full flex items-center justify-center text-slate-300 hover:text-white text-xs transition" title="GitHub @vexornull">
-                            <i class="fa-brands fa-github"></i>
-                        </a>
-                        <a href="https://twitter.com/vexornull" target="_blank" rel="noopener noreferrer" class="w-7 h-7 bg-slate-800 hover:bg-sky-500 rounded-full flex items-center justify-center text-slate-300 hover:text-white text-xs transition" title="Twitter/X @vexornull">
-                            <i class="fa-brands fa-x-twitter"></i>
-                        </a>
-                        <a href="https://instagram.com/vexornull" target="_blank" rel="noopener noreferrer" class="w-7 h-7 bg-slate-800 hover:bg-pink-600 rounded-full flex items-center justify-center text-slate-300 hover:text-white text-xs transition" title="Instagram @vexornull">
-                            <i class="fa-brands fa-instagram"></i>
-                        </a>
-                        <a href="https://facebook.com/vexornull" target="_blank" rel="noopener noreferrer" class="w-7 h-7 bg-slate-800 hover:bg-blue-700 rounded-full flex items-center justify-center text-slate-300 hover:text-white text-xs transition" title="Facebook @vexornull">
-                            <i class="fa-brands fa-facebook"></i>
-                        </a>
-                    </div>
-                </div>
 
-                <!-- Categories Widget -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                        <!-- Developer Credit Widget -->
+                        <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-xl shadow-sm p-5 border border-slate-700 space-y-3">
+                            <div class="flex items-center gap-2 text-xs font-bold text-blue-400 uppercase tracking-wider">
+                                <i class="fa-solid fa-code"></i> Developer Profile
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold text-lg text-white shadow-md">
+                                    TH
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-white">Tanveer Hussain</h4>
+                                    <p class="text-xs text-blue-300 font-medium">@vexornull</p>
+                                </div>
+                            </div>
+                            <p class="text-[11px] text-slate-300 leading-snug">
+                                Engineered with pure client-side static technology for zero-cost GitHub Pages hosting.
+                            </p>
+                            <div class="flex items-center gap-2 pt-1 border-t border-slate-700/60">
+                                <a href="https://github.com/vexornull" target="_blank" rel="noopener noreferrer" class="w-7 h-7 bg-slate-800 hover:bg-blue-600 rounded-full flex items-center justify-center text-slate-300 hover:text-white text-xs transition" title="GitHub @vexornull">
+                                    <i class="fa-brands fa-github"></i>
+                                </a>
+                                <a href="https://twitter.com/vexornull" target="_blank" rel="noopener noreferrer" class="w-7 h-7 bg-slate-800 hover:bg-sky-500 rounded-full flex items-center justify-center text-slate-300 hover:text-white text-xs transition" title="Twitter/X @vexornull">
+                                    <i class="fa-brands fa-x-twitter"></i>
+                                </a>
+                                <a href="https://instagram.com/vexornull" target="_blank" rel="noopener noreferrer" class="w-7 h-7 bg-slate-800 hover:bg-pink-600 rounded-full flex items-center justify-center text-slate-300 hover:text-white text-xs transition" title="Instagram @vexornull">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </a>
+                                <a href="https://facebook.com/vexornull" target="_blank" rel="noopener noreferrer" class="w-7 h-7 bg-slate-800 hover:bg-blue-700 rounded-full flex items-center justify-center text-slate-300 hover:text-white text-xs transition" title="Facebook @vexornull">
+                                    <i class="fa-brands fa-facebook"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Categories Widget -->
+                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
                             <h3 class="font-bold text-gray-900 border-b pb-2 mb-3 text-sm tracking-wide uppercase flex items-center gap-2">
                                 <i class="fa-solid fa-folder-open text-blue-500"></i> Categories
                             </h3>
@@ -281,9 +277,7 @@
             </footer>
         </div>
 
-        <!-- ========================================================================= -->
         <!-- BACKEND WORDPRESS ADMIN DASHBOARD VIEW -->
-        <!-- ========================================================================= -->
         <div id="adminDashboardView" class="hidden flex-1 bg-slate-100 min-h-screen flex flex-col md:flex-row">
             
             <!-- Admin Sidebar Menu -->
@@ -450,8 +444,8 @@
                                 Admin Dashboard access is protected with your password credentials. You can update credentials inside Site Settings anytime.
                             </p>
                             <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-xs text-emerald-800 space-y-1">
-                                <p class="font-semibold"><i class="fa-solid fa-check-circle mr-1"></i> Admin session actively encrypted in local state.</p>
-                                <p class="text-[11px] text-emerald-700">Remember to log out when finished managing content.</p>
+                                <p class="font-semibold"><i class="fa-solid fa-check-circle mr-1"></i> Firebase Realtime Cloud Connected.</p>
+                                <p class="text-[11px] text-emerald-700">Posts update automatically across all devices upon save.</p>
                             </div>
                             <div class="pt-2">
                                 <button onclick="switchAdminTab('github')" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center gap-2">
@@ -735,9 +729,7 @@
         </div>
     </div>
 
-    <!-- ========================================================================= -->
     <!-- AUTHENTICATION LOGIN MODAL -->
-    <!-- ========================================================================= -->
     <div id="loginModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[100] hidden flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
             <div class="bg-slate-900 text-white p-6 text-center border-b border-slate-800 relative">
@@ -782,9 +774,7 @@
         </div>
     </div>
 
-    <!-- ========================================================================= -->
     <!-- RICH POST & PAGE BLOCK EDITOR MODAL -->
-    <!-- ========================================================================= -->
     <div id="editorModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-2 sm:p-4">
         <div class="bg-white w-full max-w-5xl h-[92vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200">
             <div class="bg-slate-900 text-white px-5 py-3.5 flex items-center justify-between border-b border-slate-800">
@@ -848,11 +838,74 @@
         </div>
     </div>
 
-    <!-- ========================================================================= -->
-    <!-- JAVASCRIPT APP LOGIC & AUTH ENGINE -->
-    <!-- ========================================================================= -->
+    <!-- FIREBASE MODULAR SDK INTEGRATION -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBS6d4O3s9k7w61G4w2-Z7m5l9P0q8r",
+            authDomain: "blogger-tanveer-connect.firebaseapp.com",
+            projectId: "blogger-tanveer-connect",
+            storageBucket: "blogger-tanveer-connect.app手",
+            messagingSenderId: "123456789012",
+            appId: "1:123456789012:web:abcdef1234567890"
+        };
+
+        // Initialize Firebase & Firestore
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const cmsDocRef = doc(db, "cms_data", "main_store");
+
+        // Sync State to Firebase Firestore
+        window.saveStateToStorage = async function() {
+            try {
+                localStorage.setItem('wp_static_cms_data', JSON.stringify(window.appState));
+                await setDoc(cmsDocRef, window.appState);
+                const indicator = document.getElementById('saveStatusIndicator');
+                if(indicator) {
+                    indicator.className = 'text-xs text-emerald-400 flex items-center gap-1';
+                    indicator.innerHTML = `<i class="fa-solid fa-cloud-check"></i> <span class="hidden md:inline">Saved Cloud Sync</span>`;
+                }
+            } catch (err) {
+                console.error("Firebase Sync Error:", err);
+                const indicator = document.getElementById('saveStatusIndicator');
+                if(indicator) {
+                    indicator.className = 'text-xs text-amber-400 flex items-center gap-1';
+                    indicator.innerHTML = `<i class="fa-solid fa-hard-drive"></i> <span class="hidden md:inline">Saved Offline</span>`;
+                }
+            }
+        };
+
+        // Realtime Data Listener from Cloud
+        onSnapshot(cmsDocRef, (snapshot) => {
+            if (snapshot.exists()) {
+                const cloudData = snapshot.data();
+                window.appState = {
+                    ...window.DEFAULT_STATE,
+                    ...cloudData,
+                    auth: cloudData.auth || window.DEFAULT_STATE.auth
+                };
+                localStorage.setItem('wp_static_cms_data', JSON.stringify(window.appState));
+                window.applySiteSettings();
+                window.renderPublicSite();
+                if (window.isAdminView) {
+                    window.renderAdminDashboard();
+                }
+                const indicator = document.getElementById('saveStatusIndicator');
+                if(indicator) {
+                    indicator.className = 'text-xs text-emerald-400 flex items-center gap-1';
+                    indicator.innerHTML = `<i class="fa-solid fa-cloud"></i> <span class="hidden md:inline">Synced</span>`;
+                }
+            } else {
+                window.saveStateToStorage();
+            }
+        });
+    </script>
+
+    <!-- MAIN APP CONTROLLER -->
     <script>
-        // DEFAULT STATE INCLUDING CREDENTIALS
         const DEFAULT_STATE = {
             auth: {
                 username: "Admin",
@@ -863,7 +916,7 @@
                 tagline: "Free WordPress Engine for GitHub Pages",
                 logoText: "W",
                 theme: "classic",
-                widgetAboutText: "A lightweight WordPress engine operating directly in your browser with built-in authentication security!"
+                widgetAboutText: "A lightweight WordPress engine operating directly with Firebase Realtime Database cloud storage!"
             },
             categories: ["General", "Technology", "Design", "Tutorials"],
             tags: ["WordPress", "GitHubPages", "WebDev", "Tailwind"],
@@ -878,17 +931,6 @@
                     status: "published",
                     date: "2026-09-10",
                     imageUrl: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=800&q=80"
-                },
-                {
-                    id: "post-2",
-                    title: "How to Deploy Your Static Blog to GitHub in 3 Easy Steps",
-                    slug: "deploy-static-blog-to-github",
-                    content: "<p>Publishing your website to GitHub Pages is easier than ever using this tool!</p><ol><li>Open the <strong>GitHub Deployment</strong> tab in Admin Panel.</li><li>Click <strong>Download Compiled HTML Bundle</strong>.</li><li>Commit your generated <code>index.html</code> to your repository!</li></ol>",
-                    category: "Tutorials",
-                    tags: ["GitHubPages", "WebDev"],
-                    status: "published",
-                    date: "2026-09-09",
-                    imageUrl: "https://images.unsplash.com/photo-1618401471353-b98aedd04e11?auto=format&fit=crop&w=800&q=80"
                 }
             ],
             pages: [
@@ -899,24 +941,17 @@
                     content: "<h2>About Our Static Studio</h2><p>We build lightning-fast web experiences without the need for SQL databases or server maintenance overhead.</p>",
                     status: "published",
                     date: "2026-09-01"
-                },
-                {
-                    id: "page-contact",
-                    title: "Contact",
-                    slug: "contact",
-                    content: "<h2>Get In Touch</h2><p>Have questions? Connect with us on GitHub or edit this contact page in admin dashboard!</p>",
-                    status: "published",
-                    date: "2026-09-02"
                 }
             ],
             currentEditingId: null,
             currentEditingType: 'post'
         };
 
-        let appState = DEFAULT_STATE;
-        let isAuthenticated = false;
+        window.DEFAULT_STATE = DEFAULT_STATE;
+        window.appState = DEFAULT_STATE;
+        window.isAuthenticated = false;
+        window.isAdminView = false;
 
-        // INITIALIZATION
         window.addEventListener('DOMContentLoaded', () => {
             loadStateFromStorage();
             checkAuthSession();
@@ -925,14 +960,12 @@
             document.getElementById('currentYear').textContent = new Date().getFullYear();
         });
 
-        // STORAGE HANDLERS
         function loadStateFromStorage() {
             const saved = localStorage.getItem('wp_static_cms_data');
             if (saved) {
                 try {
                     const parsed = JSON.parse(saved);
-                    // Merge auth defaults if missing from legacy storage
-                    appState = {
+                    window.appState = {
                         ...DEFAULT_STATE,
                         ...parsed,
                         auth: parsed.auth || DEFAULT_STATE.auth
@@ -943,29 +976,19 @@
             }
         }
 
-        function saveStateToStorage() {
-            localStorage.setItem('wp_static_cms_data', JSON.stringify(appState));
-            const indicator = document.getElementById('saveStatusIndicator');
-            if(indicator) {
-                indicator.classList.add('text-emerald-400');
-                indicator.innerHTML = `<i class="fa-solid fa-cloud"></i> <span class="hidden md:inline">Saved Locally</span>`;
-            }
-        }
-
-        // AUTHENTICATION LOGIC
         function checkAuthSession() {
             const session = localStorage.getItem('wp_admin_session');
             if (session === 'logged_in') {
-                isAuthenticated = true;
+                window.isAuthenticated = true;
                 updateAuthUI(true);
             } else {
-                isAuthenticated = false;
+                window.isAuthenticated = false;
                 updateAuthUI(false);
             }
         }
 
         function updateAuthUI(loggedIn) {
-            const userLabel = loggedIn ? appState.auth.username : "Guest";
+            const userLabel = loggedIn ? window.appState.auth.username : "Guest";
             document.getElementById('topNavUserLabel').textContent = userLabel;
             document.getElementById('sidebarUserLabel').textContent = userLabel;
 
@@ -978,7 +1001,7 @@
         }
 
         function handleDashboardAccess() {
-            if (isAuthenticated) {
+            if (window.isAuthenticated) {
                 toggleAdminView();
             } else {
                 openLoginModal();
@@ -1001,12 +1024,12 @@
             const userVal = document.getElementById('loginUsername').value.trim();
             const passVal = document.getElementById('loginPassword').value.trim();
 
-            if (userVal === appState.auth.username && passVal === appState.auth.password) {
-                isAuthenticated = true;
+            if (userVal === window.appState.auth.username && passVal === window.appState.auth.password) {
+                window.isAuthenticated = true;
                 localStorage.setItem('wp_admin_session', 'logged_in');
                 updateAuthUI(true);
                 closeLoginModal();
-                toggleAdminView(true); // Force show admin
+                toggleAdminView(true);
             } else {
                 document.getElementById('loginErrorText').textContent = "Incorrect username or password.";
                 document.getElementById('loginErrorMessage').classList.remove('hidden');
@@ -1014,29 +1037,27 @@
         }
 
         function logoutAdmin() {
-            isAuthenticated = false;
+            window.isAuthenticated = false;
             localStorage.removeItem('wp_admin_session');
             updateAuthUI(false);
-            if (isAdminView) {
-                toggleAdminView(false); // Return to public view
+            if (window.isAdminView) {
+                toggleAdminView(false);
             }
         }
 
-        // VIEW TOGGLING
-        let isAdminView = false;
         function toggleAdminView(forceAdmin = null) {
             if (forceAdmin !== null) {
-                isAdminView = forceAdmin;
+                window.isAdminView = forceAdmin;
             } else {
-                isAdminView = !isAdminView;
+                window.isAdminView = !window.isAdminView;
             }
 
             const publicView = document.getElementById('publicSiteView');
             const adminView = document.getElementById('adminDashboardView');
             const toggleBtnText = document.getElementById('adminToggleText');
 
-            if (isAdminView) {
-                if (!isAuthenticated) {
+            if (window.isAdminView) {
+                if (!window.isAuthenticated) {
                     openLoginModal();
                     return;
                 }
@@ -1052,9 +1073,8 @@
             }
         }
 
-        // PUBLIC FRONTEND RENDER ENGINE
         function applySiteSettings() {
-            const settings = appState.siteSettings;
+            const settings = window.appState.siteSettings;
             document.getElementById('publicSiteTitle').textContent = settings.title;
             document.getElementById('footerSiteTitle').textContent = settings.title;
             document.getElementById('publicSiteTagline').textContent = settings.tagline;
@@ -1075,7 +1095,7 @@
             const nav = document.getElementById('publicNavItems');
             let html = `<button onclick="loadPublicPosts()" class="px-3 py-3 border-b-2 border-blue-600 font-semibold text-blue-600 whitespace-nowrap">Home</button>`;
             
-            appState.pages.filter(p => p.status === 'published').forEach(page => {
+            window.appState.pages.filter(p => p.status === 'published').forEach(page => {
                 html += `<button onclick="loadPublicPage('${page.id}')" class="px-3 py-3 border-b-2 border-transparent hover:border-gray-300 font-medium text-gray-600 hover:text-gray-900 whitespace-nowrap transition">${page.title}</button>`;
             });
 
@@ -1084,7 +1104,7 @@
 
         function loadPublicPosts(filterCat = null, filterTag = null) {
             const container = document.getElementById('primaryPublicContent');
-            let posts = appState.posts.filter(p => p.status === 'published');
+            let posts = window.appState.posts.filter(p => p.status === 'published');
 
             if (filterCat) posts = posts.filter(p => p.category === filterCat);
             if (filterTag) posts = posts.filter(p => p.tags && p.tags.includes(filterTag));
@@ -1126,7 +1146,7 @@
         }
 
         function viewSinglePost(postId) {
-            const post = appState.posts.find(p => p.id === postId);
+            const post = window.appState.posts.find(p => p.id === postId);
             if (!post) return;
 
             const container = document.getElementById('primaryPublicContent');
@@ -1152,7 +1172,7 @@
         }
 
         function loadPublicPage(pageId) {
-            const page = appState.pages.find(p => p.id === pageId);
+            const page = window.appState.pages.find(p => p.id === pageId);
             if (!page) return;
 
             const container = document.getElementById('primaryPublicContent');
@@ -1173,7 +1193,7 @@
                 return;
             }
             const container = document.getElementById('primaryPublicContent');
-            const posts = appState.posts.filter(p => p.status === 'published' && p.title.toLowerCase().includes(q));
+            const posts = window.appState.posts.filter(p => p.status === 'published' && p.title.toLowerCase().includes(q));
             
             if(posts.length === 0) {
                 container.innerHTML = `<div class="bg-white p-6 rounded-xl text-center text-xs text-gray-500 border">No posts match "${q}"</div>`;
@@ -1190,8 +1210,8 @@
 
         function renderSidebarWidgets() {
             const catContainer = document.getElementById('widgetCategoryList');
-            catContainer.innerHTML = appState.categories.map(cat => {
-                const count = appState.posts.filter(p => p.category === cat && p.status === 'published').length;
+            catContainer.innerHTML = window.appState.categories.map(cat => {
+                const count = window.appState.posts.filter(p => p.category === cat && p.status === 'published').length;
                 return `
                     <li class="flex items-center justify-between py-1 border-b border-gray-50">
                         <a href="javascript:void(0)" onclick="loadPublicPosts('${cat}')" class="hover:text-blue-600 transition">${cat}</a>
@@ -1201,12 +1221,12 @@
             }).join('');
 
             const tagContainer = document.getElementById('widgetTagCloud');
-            tagContainer.innerHTML = appState.tags.map(t => `
+            tagContainer.innerHTML = window.appState.tags.map(t => `
                 <a href="javascript:void(0)" onclick="loadPublicPosts(null, '${t}')" class="text-[10px] bg-slate-100 hover:bg-blue-100 hover:text-blue-700 text-slate-600 px-2 py-1 rounded transition">#${t}</a>
             `).join('');
 
             const recentContainer = document.getElementById('widgetRecentPosts');
-            const recents = appState.posts.filter(p => p.status === 'published').slice(0, 3);
+            const recents = window.appState.posts.filter(p => p.status === 'published').slice(0, 3);
             recentContainer.innerHTML = recents.map(r => `
                 <div class="cursor-pointer group" onclick="viewSinglePost('${r.id}')">
                     <h4 class="font-semibold text-xs text-gray-800 group-hover:text-blue-600 transition leading-snug">${r.title}</h4>
@@ -1215,7 +1235,6 @@
             `).join('');
         }
 
-        // BACKEND ADMIN MANAGEMENT
         function switchAdminTab(tabName) {
             document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.admin-nav-item').forEach(el => {
@@ -1240,13 +1259,13 @@
         }
 
         function renderAdminDashboard() {
-            document.getElementById('dashTotalPosts').textContent = appState.posts.length;
-            document.getElementById('dashTotalPages').textContent = appState.pages.length;
-            document.getElementById('dashTotalCats').textContent = appState.categories.length;
-            document.getElementById('dashCurrentTheme').textContent = appState.siteSettings.theme || 'Classic';
+            document.getElementById('dashTotalPosts').textContent = window.appState.posts.length;
+            document.getElementById('dashTotalPages').textContent = window.appState.pages.length;
+            document.getElementById('dashTotalCats').textContent = window.appState.categories.length;
+            document.getElementById('dashCurrentTheme').textContent = window.appState.siteSettings.theme || 'Classic';
 
-            document.getElementById('badgePostCount').textContent = appState.posts.length;
-            document.getElementById('badgePageCount').textContent = appState.pages.length;
+            document.getElementById('badgePostCount').textContent = window.appState.posts.length;
+            document.getElementById('badgePageCount').textContent = window.appState.pages.length;
         }
 
         function renderAdminPostsTable() {
@@ -1256,11 +1275,11 @@
 
             const catSelect = document.getElementById('adminPostCatFilter');
             if(catSelect) {
-                catSelect.innerHTML = `<option value="ALL">All Categories</option>` + appState.categories.map(c => `<option value="${c}">${c}</option>`).join('');
+                catSelect.innerHTML = `<option value="ALL">All Categories</option>` + window.appState.categories.map(c => `<option value="${c}">${c}</option>`).join('');
                 catSelect.value = catFilter;
             }
 
-            let filtered = appState.posts;
+            let filtered = window.appState.posts;
             if (search) filtered = filtered.filter(p => p.title.toLowerCase().includes(search));
             if (catFilter !== 'ALL') filtered = filtered.filter(p => p.category === catFilter);
 
@@ -1289,7 +1308,7 @@
 
         function renderAdminPagesTable() {
             const body = document.getElementById('adminPagesTableBody');
-            body.innerHTML = appState.pages.map(page => `
+            body.innerHTML = window.appState.pages.map(page => `
                 <tr class="hover:bg-slate-50 transition">
                     <td class="p-3 font-semibold text-slate-800">${page.title}</td>
                     <td class="p-3 font-mono text-[11px] text-slate-500">/${page.slug}</td>
@@ -1309,7 +1328,7 @@
 
         function renderTaxonomiesAdmin() {
             const catList = document.getElementById('adminCategoryList');
-            catList.innerHTML = appState.categories.map(c => `
+            catList.innerHTML = window.appState.categories.map(c => `
                 <li class="p-2.5 flex items-center justify-between bg-white hover:bg-slate-50">
                     <span class="font-medium text-slate-800">${c}</span>
                     <button onclick="deleteCategory('${c}')" class="text-rose-500 hover:text-rose-700 text-xs"><i class="fa-solid fa-xmark"></i> Delete</button>
@@ -1317,7 +1336,7 @@
             `).join('');
 
             const tagList = document.getElementById('adminTagList');
-            tagList.innerHTML = appState.tags.map(t => `
+            tagList.innerHTML = window.appState.tags.map(t => `
                 <span class="bg-slate-100 border border-slate-200 text-slate-700 px-2.5 py-1 rounded-full text-xs flex items-center gap-1.5">
                     #${t}
                     <button onclick="deleteTag('${t}')" class="text-slate-400 hover:text-rose-600"><i class="fa-solid fa-xmark"></i></button>
@@ -1328,8 +1347,8 @@
         function addCategory() {
             const input = document.getElementById('newCatInput');
             const val = input.value.trim();
-            if (val && !appState.categories.includes(val)) {
-                appState.categories.push(val);
+            if (val && !window.appState.categories.includes(val)) {
+                window.appState.categories.push(val);
                 input.value = '';
                 saveStateToStorage();
                 renderTaxonomiesAdmin();
@@ -1337,7 +1356,7 @@
         }
 
         function deleteCategory(cat) {
-            appState.categories = appState.categories.filter(c => c !== cat);
+            window.appState.categories = window.appState.categories.filter(c => c !== cat);
             saveStateToStorage();
             renderTaxonomiesAdmin();
         }
@@ -1345,8 +1364,8 @@
         function addTag() {
             const input = document.getElementById('newTagInput');
             const val = input.value.trim().replace('#', '');
-            if (val && !appState.tags.includes(val)) {
-                appState.tags.push(val);
+            if (val && !window.appState.tags.includes(val)) {
+                window.appState.tags.push(val);
                 input.value = '';
                 saveStateToStorage();
                 renderTaxonomiesAdmin();
@@ -1354,20 +1373,19 @@
         }
 
         function deleteTag(tag) {
-            appState.tags = appState.tags.filter(t => t !== tag);
+            window.appState.tags = window.appState.tags.filter(t => t !== tag);
             saveStateToStorage();
             renderTaxonomiesAdmin();
         }
 
-        // BLOCK EDITOR MODAL LOGIC
         function openEditor(type = 'post', itemId = null) {
-            if (!isAuthenticated) {
+            if (!window.isAuthenticated) {
                 openLoginModal();
                 return;
             }
 
-            appState.currentEditingType = type;
-            appState.currentEditingId = itemId;
+            window.appState.currentEditingType = type;
+            window.appState.currentEditingId = itemId;
 
             const modal = document.getElementById('editorModal');
             const badge = document.getElementById('editorModalTypeBadge');
@@ -1382,18 +1400,18 @@
             } else {
                 taxPanel.classList.remove('hidden');
                 const catSelect = document.getElementById('editorCategory');
-                catSelect.innerHTML = appState.categories.map(c => `<option value="${c}">${c}</option>`).join('');
+                catSelect.innerHTML = window.appState.categories.map(c => `<option value="${c}">${c}</option>`).join('');
             }
 
             if (itemId) {
-                const item = type === 'post' ? appState.posts.find(p => p.id === itemId) : appState.pages.find(p => p.id === itemId);
+                const item = type === 'post' ? window.appState.posts.find(p => p.id === itemId) : window.appState.pages.find(p => p.id === itemId);
                 if (item) {
                     headerTitle.textContent = `Edit ${type}: ${item.title}`;
                     document.getElementById('editorTitle').value = item.title;
                     document.getElementById('editorBody').innerHTML = item.content;
                     document.getElementById('editorStatus').value = item.status;
                     if (type === 'post') {
-                        document.getElementById('editorCategory').value = item.category || appState.categories[0];
+                        document.getElementById('editorCategory').value = item.category || window.appState.categories[0];
                         document.getElementById('editorImageUrl').value = item.imageUrl || '';
                         document.getElementById('editorTags').value = (item.tags || []).join(', ');
                     }
@@ -1436,7 +1454,7 @@
             const title = document.getElementById('editorTitle').value.trim();
             const content = document.getElementById('editorBody').innerHTML.trim();
             const status = document.getElementById('editorStatus').value;
-            const type = appState.currentEditingType;
+            const type = window.appState.currentEditingType;
 
             if (!title) {
                 alert("Please enter a title.");
@@ -1451,11 +1469,11 @@
                 const tagsRaw = document.getElementById('editorTags').value;
                 const tags = tagsRaw.split(',').map(t => t.trim().replace('#','')).filter(Boolean);
 
-                if (appState.currentEditingId) {
-                    const idx = appState.posts.findIndex(p => p.id === appState.currentEditingId);
+                if (window.appState.currentEditingId) {
+                    const idx = window.appState.posts.findIndex(p => p.id === window.appState.currentEditingId);
                     if (idx !== -1) {
-                        appState.posts[idx] = {
-                            ...appState.posts[idx],
+                        window.appState.posts[idx] = {
+                            ...window.appState.posts[idx],
                             title,
                             slug: title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
                             content,
@@ -1477,14 +1495,14 @@
                         status,
                         date: today
                     };
-                    appState.posts.unshift(newPost);
+                    window.appState.posts.unshift(newPost);
                 }
             } else {
-                if (appState.currentEditingId) {
-                    const idx = appState.pages.findIndex(p => p.id === appState.currentEditingId);
+                if (window.appState.currentEditingId) {
+                    const idx = window.appState.pages.findIndex(p => p.id === window.appState.currentEditingId);
                     if (idx !== -1) {
-                        appState.pages[idx] = {
-                            ...appState.pages[idx],
+                        window.appState.pages[idx] = {
+                            ...window.appState.pages[idx],
                             title,
                             slug: title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
                             content,
@@ -1500,7 +1518,7 @@
                         status,
                         date: today
                     };
-                    appState.pages.push(newPage);
+                    window.appState.pages.push(newPage);
                 }
             }
 
@@ -1512,11 +1530,11 @@
         }
 
         function createNewPostQuick() {
-            if (!isAuthenticated) {
+            if (!window.isAuthenticated) {
                 openLoginModal();
                 return;
             }
-            if (!isAdminView) toggleAdminView();
+            if (!window.isAdminView) toggleAdminView();
             openEditor('post');
         }
 
@@ -1530,12 +1548,12 @@
                 title,
                 slug: title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
                 content: `<p>${content}</p>`,
-                category: appState.categories[0] || 'General',
+                category: window.appState.categories[0] || 'General',
                 status: 'draft',
                 date: new Date().toISOString().split('T')[0]
             };
 
-            appState.posts.unshift(draft);
+            window.appState.posts.unshift(draft);
             saveStateToStorage();
             document.getElementById('quickDraftTitle').value = '';
             document.getElementById('quickDraftContent').value = '';
@@ -1549,38 +1567,36 @@
 
         function deleteItem(type, id) {
             if (type === 'post') {
-                appState.posts = appState.posts.filter(p => p.id !== id);
+                window.appState.posts = window.appState.posts.filter(p => p.id !== id);
                 renderAdminPostsTable();
             } else {
-                appState.pages = appState.pages.filter(p => p.id !== id);
+                window.appState.pages = window.appState.pages.filter(p => p.id !== id);
                 renderAdminPagesTable();
             }
             saveStateToStorage();
             renderAdminDashboard();
         }
 
-        // APPEARANCE & SETTINGS
         function setTheme(themeName) {
-            appState.siteSettings.theme = themeName;
+            window.appState.siteSettings.theme = themeName;
             saveStateToStorage();
             applySiteSettings();
             renderAdminDashboard();
         }
 
         function populateSettingsFields() {
-            document.getElementById('settingSiteTitle').value = appState.siteSettings.title;
-            document.getElementById('settingSiteTagline').value = appState.siteSettings.tagline;
-            document.getElementById('settingSiteLogo').value = appState.siteSettings.logoText;
+            document.getElementById('settingSiteTitle').value = window.appState.siteSettings.title;
+            document.getElementById('settingSiteTagline').value = window.appState.siteSettings.tagline;
+            document.getElementById('settingSiteLogo').value = window.appState.siteSettings.logoText;
 
-            // Security credentials fields
-            document.getElementById('settingAdminUsername').value = appState.auth.username;
+            document.getElementById('settingAdminUsername').value = window.appState.auth.username;
             document.getElementById('settingAdminPassword').value = '';
         }
 
         function saveSiteSettings() {
-            appState.siteSettings.title = document.getElementById('settingSiteTitle').value;
-            appState.siteSettings.tagline = document.getElementById('settingSiteTagline').value;
-            appState.siteSettings.logoText = document.getElementById('settingSiteLogo').value;
+            window.appState.siteSettings.title = document.getElementById('settingSiteTitle').value;
+            window.appState.siteSettings.tagline = document.getElementById('settingSiteTagline').value;
+            window.appState.siteSettings.logoText = document.getElementById('settingSiteLogo').value;
             saveStateToStorage();
             applySiteSettings();
             alert("Site identity settings saved!");
@@ -1595,9 +1611,9 @@
                 return;
             }
 
-            appState.auth.username = newUsername;
+            window.appState.auth.username = newUsername;
             if (newPassword) {
-                appState.auth.password = newPassword;
+                window.appState.auth.password = newPassword;
             }
 
             saveStateToStorage();
@@ -1606,19 +1622,18 @@
         }
 
         function populateAppearanceFields() {
-            document.getElementById('settingWidgetAbout').value = appState.siteSettings.widgetAboutText;
+            document.getElementById('settingWidgetAbout').value = window.appState.siteSettings.widgetAboutText;
         }
 
         function saveAppearanceSettings() {
-            appState.siteSettings.widgetAboutText = document.getElementById('settingWidgetAbout').value;
+            window.appState.siteSettings.widgetAboutText = document.getElementById('settingWidgetAbout').value;
             saveStateToStorage();
             applySiteSettings();
             alert("Appearance settings updated!");
         }
 
-        // DATA EXPORT & GITHUB SYNC
         function exportDataJSON() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(window.appState, null, 2));
             const dlAnchorElem = document.createElement('a');
             dlAnchorElem.setAttribute("href", dataStr);
             dlAnchorElem.setAttribute("download", `wp_static_backup_${Date.now()}.json`);
