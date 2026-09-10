@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordPress CMS Cloud - Vexornull</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        .dark .glass-panel { background: rgba(17, 24, 39, 0.95); backdrop-filter: blur(10px); }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .dark ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 3px; }
+    </style>
+</head>
+<body class="h-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col justify-between">
+
+    <div id="app" class="flex-grow flex flex-col">
+        <!-- Navigation Header -->
+        <header class="sticky top-0 z-50 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="router.navigate('home')">
+                    <div id="navLogoIcon" class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
+                        <i class="fa-solid fa-cube text-lg"></i>
+                    </div>
+                    <div>
+                        <span id="navSiteTitle" class="font-bold text-lg tracking-tight">My WordPress Site</span>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Powered by @vexornull CMS</p>
+                    </div>
+                </div>
+
+                <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                    <button onclick="router.navigate('home')" class="hover:text-indigo-600 transition">Home</button>
+                    <button onclick="router.navigate('blog')" class="hover:text-indigo-600 transition">Articles</button>
+                    <button onclick="router.navigate('setup')" class="hover:text-indigo-600 transition text-amber-600 dark:text-amber-400 flex items-center gap-1.5"><i class="fa-solid fa-book"></i> Setup Guide</button>
+                </nav>
+
+                <div class="flex items-center space-x-3">
+                    <button id="themeToggleBtn" onclick="toggleTheme()" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                        <i class="fa-solid fa-moon dark:hidden"></i>
+                        <i class="fa-solid fa-sun hidden dark:block text-amber-400"></i>
+                    </button>
+                    <div id="authNavArea">
+                        <button onclick="openLoginModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl shadow-md shadow-indigo-600/20 transition flex items-center gap-2">
+                            <i class="fa-solid fa-lock text-xs"></i> Admin Login
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Dynamic Viewport -->
+        <main id="mainContent" class="flex-grow flex flex-col">
+            <!-- Dynamically populated views go here -->
+        </main>
+    </div>
+
+    <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-8 px-4 sm:px-8 mt-auto">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500 dark:text-slate-400">
+            <div class="flex items-center gap-2">
+                <span>&copy; 2026 WordPress Cloud CMS. Developed with &hearts; by</span>
+                <a href="https://github.com/vexornull" target="_blank" class="font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Tanveer Hussain (@vexornull)</a>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="https://github.com/vexornull" target="_blank" class="hover:text-indigo-600 transition flex items-center gap-1.5"><i class="fa-brands fa-github"></i> @vexornull</a>
+                <a href="https://twitter.com/vexornull" target="_blank" class="hover:text-indigo-600 transition flex items-center gap-1.5"><i class="fa-brands fa-twitter"></i> @vexornull</a>
+                <a href="https://linkedin.com/in/vexornull" target="_blank" class="hover:text-indigo-600 transition flex items-center gap-1.5"><i class="fa-brands fa-linkedin"></i> @vexornull</a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="loginModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden">
+        <div class="glass-panel w-full max-w-md p-8 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 relative animate-in fade-in zoom-in duration-200">
+            <button onclick="closeLoginModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <div class="text-center mb-6">
+                <div class="w-14 h-14 bg-indigo-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-indigo-600/30">
+                    <i class="fa-solid fa-shield-halved text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold">Admin Portal Login</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Enter credentials to access WordPress Dashboard</p>
+            </div>
+            <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Username</label>
+                    <input type="text" id="loginUser" required placeholder="Admin" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-indigo-600 outline-none transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Password</label>
+                    <input type="password" id="loginPass" required placeholder="••••••••••••" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-indigo-600 outline-none transition">
+                </div>
+                <div id="loginError" class="text-rose-500 text-xs font-medium hidden"></div>
+                <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 transition">
+                    Authenticate Dashboard
+                </button>
+            </form>
+            <div class="mt-4 text-center text-xs text-slate-400">
+                Hint: Username <code class="bg-slate-200 dark:bg-slate-800 px-1 py-0.5 rounded text-indigo-500">Admin</code> | Pass <code class="bg-slate-200 dark:bg-slate-800 px-1 py-0.5 rounded text-indigo-500">11ko12ne13bar14</code>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Notification Modal -->
+    <div id="notificationModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden">
+        <div class="glass-panel w-full max-w-sm p-6 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 text-center">
+            <div id="notifIcon" class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 text-white text-xl"></div>
+            <h4 id="notifTitle" class="font-bold text-lg mb-1">Notice</h4>
+            <p id="notifMessage" class="text-sm text-slate-500 dark:text-slate-400 mb-5"></p>
+            <button onclick="closeNotification()" class="w-full py-2.5 bg-indigo-600 text-white font-medium rounded-xl hover:bg-indigo-700 transition">OK</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { firebaseConfig } from './firebase-config.js';
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getDatabase, ref, set, get, update, remove, push, onValue } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+
+        // Initialize Firebase
+        let app, db;
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getDatabase(app);
+            window.firebaseDB = { ref, set, get, update, remove, push, onValue, db };
+            console.log("Firebase initialized successfully via external config file.");
+        } catch (err) {
+            console.error("Firebase initialization failed:", err);
+        }
+    </script>
+
+    <script>
+        // Global State & UI Helpers
+        let siteSettings = {
+            title: "My WordPress Cloud",
+            tagline: "A Full-Featured Cloud CMS built by Tanveer Hussain",
+            primaryColor: "indigo",
+            accentColor: "blue",
+            heroTitle: "Build Fast. Control Everything.",
+            heroSubtitle: "Your dynamic WordPress-like platform backed by secure Firebase storage and GitHub hosting."
+        };
+
+        let posts = [];
+        let comments = [];
+        let analytics = { pageViews: 1420, uniqueVisitors: 890, activePosts: 5, pendingComments: 2 };
+        let isAdminLoggedIn = localStorage.getItem("vexornull_admin_logged") === "true";
+
+        // Show Custom Notification Modal instead of alert()
+        function showNotification(title, message, type = 'success') {
+            const modal = document.getElementById('notificationModal');
+            const iconDiv = document.getElementById('notifIcon');
+            document.getElementById('notifTitle').innerText = title;
+            document.getElementById('notifMessage').innerText = message;
+            
+            iconDiv.className = type === 'success' 
+                ? "w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 bg-emerald-500 text-white text-xl shadow-lg shadow-emerald-500/30"
+                : "w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 bg-rose-500 text-white text-xl shadow-lg shadow-rose-500/30";
+            iconDiv.innerHTML = type === 'success' ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-triangle-exclamation"></i>';
+            
+            modal.classList.remove('hidden');
+        }
+
+        function closeNotification() {
+            document.getElementById('notificationModal').classList.add('hidden');
+        }
+
+        function openLoginModal() {
+            if (isAdminLoggedIn) {
+                router.navigate('dashboard');
+                return;
+            }
+            document.getElementById('loginModal').classList.remove('hidden');
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.add('hidden');
+            document.getElementById('loginError').classList.add('hidden');
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('loginUser').value.trim();
+            const p = document.getElementById('loginPass').value.trim();
+            const errDiv = document.getElementById('loginError');
+
+            if (u === "Admin" && p === "11ko12ne13bar14") {
+                isAdminLoggedIn = true;
+                localStorage.setItem("vexornull_admin_logged", "true");
+                closeLoginModal();
+                updateAuthNav();
+                showNotification("Welcome Admin!", "Successfully logged into WordPress CMS Dashboard.");
+                router.navigate('dashboard');
+            } else {
+                errDiv.innerText = "Invalid Username or Password. Try Admin / 11ko12ne13bar14";
+                errDiv.classList.remove('hidden');
+            }
+        }
+
+        function adminLogout() {
+            isAdminLoggedIn = false;
+            localStorage.removeItem("vexornull_admin_logged");
+            updateAuthNav();
+            showNotification("Logged Out", "You have securely exited the admin panel.", "success");
+            router.navigate('home');
+        }
+
+        function updateAuthNav() {
+            const area = document.getElementById('authNavArea');
+            if (isAdminLoggedIn) {
+                area.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <button onclick="router.navigate('dashboard')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl shadow-md shadow-emerald-600/20 transition flex items-center gap-2">
+                            <i class="fa-solid fa-gauge text-xs"></i> Dashboard
+                        </button>
+                        <button onclick="adminLogout()" title="Logout" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-rose-50 dark:hover:bg-rose-900/30 text-rose-500 transition">
+                            <i class="fa-solid fa-power-off"></i>
+                        </button>
+                    </div>
+                `;
+            } else {
+                area.innerHTML = `
+                    <button onclick="openLoginModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl shadow-md shadow-indigo-600/20 transition flex items-center gap-2">
+                        <i class="fa-solid fa-lock text-xs"></i> Admin Login
+                    </button>
+                `;
+            }
+        }
+
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('vexornull_theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('vexornull_theme', 'dark');
+            }
+        }
+
+        // Initialize Theme from localStorage
+        if (localStorage.getItem('vexornull_theme') === 'dark' || (!('vexornull_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+
+        const router = {
+            current: 'home',
+            navigate: function(view, param = null) {
+                this.current = view;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                renderCurrentView(param);
+            }
+        };
+
+        // Firebase Sync helpers with Fallback to LocalStorage
+        function syncDataFromFirebase() {
+            if (window.firebaseDB) {
+                const { db, ref, onValue } = window.firebaseDB;
+                
+                // Settings sync
+                onValue(ref(db, 'cms/settings'), (snapshot) => {
+                    const data = snapshot.val();
+                    if (data) {
+                        siteSettings = data;
+                        document.getElementById('navSiteTitle').innerText = siteSettings.title;
+                    }
+                });
+
+                // Posts sync
+                onValue(ref(db, 'cms/posts'), (snapshot) => {
+                    const data = snapshot.val();
+                    if (data) {
+                        posts = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+                    } else {
+                        // Default mock posts if empty
+                        posts = [
+                            { id: '1', title: 'Welcome to Cloud WordPress CMS', category: 'Announcement', date: '2026-06-01', content: 'This fully responsive content management system is engineered and styled by Tanveer Hussain (@vexornull). Enjoy lightning-fast Firebase integration.', author: 'Tanveer Hussain' },
+                            { id: '2', title: 'Mastering GitHub Pages Hosting', category: 'Tutorial', date: '2026-06-03', content: 'Learn how to separate your Firebase API keys into a secure local configuration file and publish static web apps seamlessly.', author: 'Tanveer Hussain' }
+                        ];
+                    }
+                    if (router.current === 'home' || router.current === 'blog' || router.current === 'dashboard') {
+                        renderCurrentView();
+                    }
+                });
+
+                // Comments sync
+                onValue(ref(db, 'cms/comments'), (snapshot) => {
+                    const data = snapshot.val();
+                    if (data) {
+                        comments = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+                    } else {
+                        comments = [
+                            { id: 'c1', postId: '1', author: 'Alex Morgan', comment: 'Amazing CMS setup! Clean design by @vexornull.', date: '2026-06-04', status: 'Approved' }
+                        ];
+                    }
+                });
+            } else {
+                // Fallback demo data
+                posts = [
+                    { id: '1', title: 'Welcome to Cloud WordPress CMS', category: 'Announcement', date: '2026-06-01', content: 'This fully responsive content management system is engineered and styled by Tanveer Hussain (@vexornull).', author: 'Tanveer Hussain' },
+                    { id: '2', title: 'Mastering GitHub Pages Hosting', category: 'Tutorial', date: '2026-06-03', content: 'Learn how to separate your Firebase API keys into a secure local configuration file.', author: 'Tanveer Hussain' }
+                ];
+                comments = [
+                    { id: 'c1', postId: '1', author: 'Alex Morgan', comment: 'Amazing CMS setup! Clean design by @vexornull.', date: '2026-06-04', status: 'Approved' }
+                ];
+                renderCurrentView();
+            }
+        }
+
+        function renderCurrentView(param = null) {
+            const container = document.getElementById('mainContent');
+            updateAuthNav();
+
+            switch(router.current) {
+                case 'home':
+                    container.innerHTML = renderHomeView();
+                    break;
+                case 'blog':
+                    container.innerHTML = renderBlogView();
+                    break;
+                case 'postDetail':
+                    container.innerHTML = renderPostDetailView(param);
+                    break;
+                case 'setup':
+                    container.innerHTML = renderSetupGuideView();
+                    break;
+                case 'dashboard':
+                    if (!isAdminLoggedIn) {
+                        openLoginModal();
+                        router.navigate('home');
+                        return;
+                    }
+                    container.innerHTML = renderDashboardView();
+                    initDashboardTabs();
+                    break;
+                default:
+                    container.innerHTML = renderHomeView();
+            }
+        }
+
+        function renderHomeView() {
+            const recentPosts = posts.slice(0, 3);
+            return `
+                <section class="relative overflow-hidden py-20 lg:py-32 bg-gradient-to-b from-indigo-50/50 dark:from-slate-800/50 to-transparent">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                        <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-indigo-100 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 mb-6">
+                            <i class="fa-solid fa-sparkles"></i> Created by Tanveer Hussain (@vexornull)
+                        </span>
+                        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 max-w-4xl mx-auto">
+                            ${siteSettings.heroTitle}
+                        </h1>
+                        <p class="text-lg sm:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-10">
+                            ${siteSettings.heroSubtitle}
+                        </p>
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <button onclick="router.navigate('blog')" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-2xl shadow-xl shadow-indigo-600/30 transition">
+                                Explore Articles
+                            </button>
+                            <button onclick="router.navigate('setup')" class="px-8 py-4 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 font-semibold rounded-2xl transition flex items-center gap-2">
+                                <i class="fa-solid fa-code text-indigo-600"></i> Setup Guide
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full">
+                    <div class="flex items-center justify-between mb-8">
+                        <div>
+                            <h2 class="text-2xl font-bold tracking-tight">Latest Blog Posts</h2>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Published dynamically from Firebase Realtime Database</p>
+                        </div>
+                        <button onclick="router.navigate('blog')" class="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline text-sm flex items-center gap-1">
+                            View All <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        ${recentPosts.length === 0 ? '<p class="text-slate-500">No posts published yet. Access Dashboard to create one!</p>' : recentPosts.map(p => `
+                            <div class="glass-panel rounded-3xl border border-slate-200 dark:border-slate-800 p-6 flex flex-col justify-between hover:shadow-xl transition group cursor-pointer" onclick="router.navigate('postDetail', '${p.id}')">
+                                <div>
+                                    <div class="flex items-center justify-between mb-4">
+                                        <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 text-xs font-semibold rounded-full">${p.category || 'General'}</span>
+                                        <span class="text-xs text-slate-400">${p.date}</span>
+                                    </div>
+                                    <h3 class="font-bold text-xl mb-3 group-hover:text-indigo-600 transition">${p.title}</h3>
+                                    <p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-3 mb-6">${p.content}</p>
+                                </div>
+                                <div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500">
+                                    <span>By ${p.author || 'Tanveer Hussain'}</span>
+                                    <span class="font-semibold text-indigo-600 flex items-center gap-1">Read Post <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderBlogView() {
+            return `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+                    <div class="mb-10 text-center">
+                        <h1 class="text-3xl font-extrabold mb-2">All Articles & Pages</h1>
+                        <p class="text-slate-500 dark:text-slate-400">Browse through all content stored in your cloud WordPress CMS.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        ${posts.map(p => `
+                            <div class="glass-panel rounded-3xl border border-slate-200 dark:border-slate-800 p-6 flex flex-col justify-between hover:shadow-xl transition cursor-pointer" onclick="router.navigate('postDetail', '${p.id}')">
+                                <div>
+                                    <div class="flex items-center justify-between mb-4">
+                                        <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 text-xs font-semibold rounded-full">${p.category || 'General'}</span>
+                                        <span class="text-xs text-slate-400">${p.date}</span>
+                                    </div>
+                                    <h3 class="font-bold text-xl mb-3">${p.title}</h3>
+                                    <p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-3 mb-6">${p.content}</p>
+                                </div>
+                                <div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500">
+                                    <span>By ${p.author || 'Tanveer Hussain'}</span>
+                                    <span class="font-semibold text-indigo-600 flex items-center gap-1">Read More <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderPostDetailView(postId) {
+            const post = posts.find(p => p.id === postId) || posts[0];
+            if (!post) return `<div class="p-12 text-center">Post not found.</div>`;
+            const postComments = comments.filter(c => c.postId === post.id && c.status === 'Approved');
+
+            return `
+                <article class="max-w-4xl mx-auto px-4 py-12 w-full">
+                    <button onclick="router.navigate('blog')" class="mb-6 text-sm text-indigo-600 dark:text-indigo-400 font-semibold hover:underline flex items-center gap-1.5">
+                        <i class="fa-solid fa-arrow-left"></i> Back to Articles
+                    </button>
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 text-xs font-semibold rounded-full">${post.category || 'General'}</span>
+                        <span class="text-xs text-slate-400"><i class="fa-regular fa-calendar"></i> ${post.date}</span>
+                        <span class="text-xs text-slate-400"><i class="fa-regular fa-user"></i> ${post.author || 'Tanveer Hussain'}</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold mb-8">${post.title}</h1>
+                    
+                    <div class="glass-panel p-8 rounded-3xl border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 leading-relaxed text-lg mb-12 whitespace-pre-wrap">
+                        ${post.content}
+                    </div>
+
+                    <!-- Comments Section -->
+                    <div class="border-t border-slate-200 dark:border-slate-800 pt-10">
+                        <h3 class="text-2xl font-bold mb-6">Comments (${postComments.length})</h3>
+                        <div class="space-y-4 mb-8">
+                            ${postComments.length === 0 ? '<p class="text-sm text-slate-500">No comments yet. Be the first to comment!</p>' : postComments.map(c => `
+                                <div class="p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="font-semibold text-sm">${c.author}</span>
+                                        <span class="text-xs text-slate-400">${c.date}</span>
+                                    </div>
+                                    <p class="text-sm text-slate-600 dark:text-slate-300">${c.comment}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <!-- Add Comment Form -->
+                        <form onsubmit="handleCommentSubmit(event, '${post.id}')" class="glass-panel p-6 rounded-3xl border border-slate-200 dark:border-slate-800 space-y-4">
+                            <h4 class="font-bold text-lg">Leave a Comment</h4>
+                            <div>
+                                <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Your Name</label>
+                                <input type="text" id="commentAuthor" required placeholder="John Doe" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Your Comment</label>
+                                <textarea id="commentText" required rows="3" placeholder="Write your thoughts..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none"></textarea>
+                            </div>
+                            <button type="submit" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl text-sm transition">
+                                Submit Comment
+                            </button>
+                        </form>
+                    </div>
+                </article>
+            `;
+        }
+
+        function handleCommentSubmit(e, postId) {
+            e.preventDefault();
+            const author = document.getElementById('commentAuthor').value;
+            const comment = document.getElementById('commentText').value;
+            const newComment = {
+                postId,
+                author,
+                comment,
+                date: new Date().toISOString().split('T')[0],
+                status: 'Approved' // Auto approve for demo
+            };
+
+            if (window.firebaseDB) {
+                const { db, ref, push } = window.firebaseDB;
+                push(ref(db, 'cms/comments'), newComment);
+            } else {
+                comments.push({ id: 'c_' + Date.now(), ...newComment });
+            }
+
+            showNotification("Comment Submitted", "Your comment has been posted successfully.");
+            router.navigate('postDetail', postId);
+        }
+
+        function renderSetupGuideView() {
+            return `
+                <div class="max-w-4xl mx-auto px-4 py-12 w-full space-y-8">
+                    <div class="text-center">
+                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 mb-4 inline-block">
+                            <i class="fa-solid fa-book"></i> Official Deployment Documentation
+                        </span>
+                        <h1 class="text-3xl sm:text-4xl font-extrabold mb-3">GitHub & Firebase Setup Guide</h1>
+                        <p class="text-slate-500 dark:text-slate-400">Step-by-step instructions to host your WordPress CMS on GitHub Pages while keeping Firebase keys secure.</p>
+                    </div>
+
+                    <div class="glass-panel p-8 rounded-3xl border border-slate-200 dark:border-slate-800 space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold flex-shrink-0">1</div>
+                            <div>
+                                <h3 class="font-bold text-lg mb-1">Create Separate Firebase Config File</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">To keep your API keys secure and prevent exposure on public GitHub repositories, create a file named <code class="bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded text-indigo-500 font-mono">firebase-config.js</code> in your project root folder with the following structure:</p>
+                                <pre class="bg-slate-900 text-emerald-400 p-4 rounded-2xl text-xs font-mono overflow-x-auto"><code>// firebase-config.js
+export const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "wordpress-c971f.firebaseapp.com",
+  databaseURL: "https://wordpress-c971f-default-rtdb.firebaseio.com",
+  projectId: "wordpress-c971f",
+  storageBucket: "wordpress-c971f.firebasestorage.app",
+  messagingSenderId: "828580995189",
+  appId: "YOUR_APP_ID",
+  measurementId: "G-CQQEJLR5TY"
+};</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold flex-shrink-0">2</div>
+                            <div>
+                                <h3 class="font-bold text-lg mb-1">Push Code to GitHub Repository</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Initialize Git in your folder, add your files, and push to GitHub. Ensure <code class="bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded text-indigo-500 font-mono">firebase-config.js</code> is included in your local repository (or added to <code class="bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded text-indigo-500 font-mono">.gitignore</code> if you wish to inject it via GitHub Actions/Secrets).</p>
+                                <pre class="bg-slate-900 text-slate-200 p-4 rounded-2xl text-xs font-mono overflow-x-auto"><code>git init
+git add .
+git commit -m "Initial WordPress CMS commit by @vexornull"
+git branch -M main
+git remote add origin https://github.com/vexornull/your-repo-name.git
+git push -u origin main</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold flex-shrink-0">3</div>
+                            <div>
+                                <h3 class="font-bold text-lg mb-1">Enable GitHub Pages</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Go to your GitHub repository settings &rarr; <strong>Pages</strong> &rarr; Select source branch as <code class="bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded text-indigo-500 font-mono">main</code> (root) and save. Your WordPress CMS will be live instantly!</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold flex-shrink-0">4</div>
+                            <div>
+                                <h3 class="font-bold text-lg mb-1">Admin Dashboard Credentials</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Click on <strong>Admin Login</strong> in the header navigation and use:</p>
+                                <div class="mt-2 p-3 bg-indigo-50 dark:bg-indigo-950/50 rounded-xl border border-indigo-200 dark:border-indigo-800 text-sm space-y-1">
+                                    <div><strong>Username:</strong> <code class="text-indigo-600 font-bold">Admin</code></div>
+                                    <div><strong>Password:</strong> <code class="text-indigo-600 font-bold">11ko12ne13bar14</code></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center text-xs text-slate-400">
+                        Designed & Developed by <a href="https://github.com/vexornull" target="_blank" class="text-indigo-600 font-semibold hover:underline">Tanveer Hussain (@vexornull)</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderDashboardView() {
+            return `
+                <div class="flex flex-col lg:flex-row flex-grow">
+                    <!-- Admin Sidebar -->
+                    <aside class="w-full lg:w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 flex flex-col justify-between">
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-3 px-3 py-2 bg-indigo-50 dark:bg-indigo-950/60 rounded-2xl">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold">A</div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Administrator</h4>
+                                    <p class="text-xs text-emerald-500 font-medium flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Online</p>
+                                </div>
+                            </div>
+                            <nav class="space-y-1 text-sm font-medium">
+                                <button onclick="switchAdminTab('posts')" id="tabBtn-posts" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-indigo-600 text-white shadow-md shadow-indigo-600/20 transition">
+                                    <i class="fa-solid fa-file-lines w-5"></i> Manage Posts
+                                </button>
+                                <button onclick="switchAdminTab('settings')" id="tabBtn-settings" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                                    <i class="fa-solid fa-gear w-5"></i> Site Settings
+                                </button>
+                                <button onclick="switchAdminTab('comments')" id="tabBtn-comments" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                                    <i class="fa-solid fa-comments w-5"></i> Comments
+                                </button>
+                                <button onclick="switchAdminTab('analytics')" id="tabBtn-analytics" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                                    <i class="fa-solid fa-chart-line w-5"></i> Analytics
+                                </button>
+                            </nav>
+                        </div>
+                        <div class="pt-6 border-t border-slate-200 dark:border-slate-800">
+                            <button onclick="adminLogout()" class="w-full py-3 bg-rose-50 dark:bg-rose-950/30 text-rose-600 hover:bg-rose-100 font-semibold rounded-xl text-sm transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-power-off"></i> Logout
+                            </button>
+                        </div>
+                    </aside>
+
+                    <!-- Admin Main Content Area -->
+                    <div class="flex-grow p-6 lg:p-10 bg-slate-50 dark:bg-slate-900/50">
+                        <!-- Posts Tab -->
+                        <div id="adminTab-posts" class="admin-tab space-y-6">
+                            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                                <div>
+                                    <h2 class="text-2xl font-bold">Manage Blog Posts & Pages</h2>
+                                    <p class="text-sm text-slate-500">Create, edit, or delete dynamic articles stored in Firebase.</p>
+                                </div>
+                                <button onclick="openPostModal()" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md shadow-indigo-600/30 transition flex items-center gap-2">
+                                    <i class="fa-solid fa-plus"></i> Add New Post
+                                </button>
+                            </div>
+
+                            <div class="glass-panel rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr class="border-b border-slate-200 dark:border-slate-800 text-xs font-semibold uppercase text-slate-400 bg-slate-100 dark:bg-slate-800/50">
+                                                <th class="p-4">Title</th>
+                                                <th class="p-4">Category</th>
+                                                <th class="p-4">Author</th>
+                                                <th class="p-4">Date</th>
+                                                <th class="p-4 text-right">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-slate-200 dark:divide-slate-800 text-sm">
+                                            ${posts.map(p => `
+                                                <tr class="hover:bg-slate-100/50 dark:hover:bg-slate-800/50 transition">
+                                                    <td class="p-4 font-semibold">${p.title}</td>
+                                                    <td class="p-4"><span class="px-2.5 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950 text-indigo-600 text-xs">${p.category || 'General'}</span></td>
+                                                    <td class="p-4 text-slate-500">${p.author || 'Tanveer Hussain'}</td>
+                                                    <td class="p-4 text-slate-400">${p.date}</td>
+                                                    <td class="p-4 text-right space-x-2">
+                                                        <button onclick="editPost('${p.id}')" class="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-lg text-xs font-medium transition"><i class="fa-solid fa-pen"></i></button>
+                                                        <button onclick="deletePost('${p.id}')" class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs font-medium transition"><i class="fa-solid fa-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                            `).join('')}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Settings Tab -->
+                        <div id="adminTab-settings" class="admin-tab space-y-6 hidden">
+                            <div>
+                                <h2 class="text-2xl font-bold">Site Settings & Customization</h2>
+                                <p class="text-sm text-slate-500">Configure global WordPress site branding and headers.</p>
+                            </div>
+                            <form onsubmit="saveSiteSettings(event)" class="glass-panel p-8 rounded-3xl border border-slate-200 dark:border-slate-800 space-y-6 max-w-3xl">
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Site Title</label>
+                                    <input type="text" id="settingTitle" value="${siteSettings.title}" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Site Tagline</label>
+                                    <input type="text" id="settingTagline" value="${siteSettings.tagline}" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Hero Title</label>
+                                    <input type="text" id="settingHeroTitle" value="${siteSettings.heroTitle}" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Hero Subtitle</label>
+                                    <textarea id="settingHeroSubtitle" rows="2" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none">${siteSettings.heroSubtitle}</textarea>
+                                </div>
+                                <button type="submit" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl text-sm shadow-lg shadow-indigo-600/30 transition">
+                                    Save Settings
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Comments Tab -->
+                        <div id="adminTab-comments" class="admin-tab space-y-6 hidden">
+                            <div>
+                                <h2 class="text-2xl font-bold">Manage Comments & Messages</h2>
+                                <p class="text-sm text-slate-500">Approve or delete user interactions across articles.</p>
+                            </div>
+                            <div class="glass-panel rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr class="border-b border-slate-200 dark:border-slate-800 text-xs font-semibold uppercase text-slate-400 bg-slate-100 dark:bg-slate-800/50">
+                                                <th class="p-4">Author</th>
+                                                <th class="p-4">Comment</th>
+                                                <th class="p-4">Date</th>
+                                                <th class="p-4 text-right">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-slate-200 dark:divide-slate-800 text-sm">
+                                            ${comments.map(c => `
+                                                <tr class="hover:bg-slate-100/50 dark:hover:bg-slate-800/50 transition">
+                                                    <td class="p-4 font-semibold">${c.author}</td>
+                                                    <td class="p-4 text-slate-600 dark:text-slate-300 max-w-xs truncate">${c.comment}</td>
+                                                    <td class="p-4 text-slate-400">${c.date}</td>
+                                                    <td class="p-4 text-right">
+                                                        <button onclick="deleteComment('${c.id}')" class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs font-medium transition"><i class="fa-solid fa-trash"></i> Delete</button>
+                                                    </td>
+                                                </tr>
+                                            `).join('')}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Analytics Tab -->
+                        <div id="adminTab-analytics" class="admin-tab space-y-6 hidden">
+                            <div>
+                                <h2 class="text-2xl font-bold">Analytics & Statistics</h2>
+                                <p class="text-sm text-slate-500">Real-time engagement metrics for your WordPress site.</p>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div class="glass-panel p-6 rounded-3xl border border-slate-200 dark:border-slate-800 flex items-center gap-4">
+                                    <div class="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 flex items-center justify-center text-2xl font-bold">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs text-slate-400 uppercase font-semibold">Total Page Views</span>
+                                        <h3 class="text-2xl font-extrabold">${analytics.pageViews}</h3>
+                                    </div>
+                                </div>
+                                <div class="glass-panel p-6 rounded-3xl border border-slate-200 dark:border-slate-800 flex items-center gap-4">
+                                    <div class="w-14 h-14 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center text-2xl font-bold">
+                                        <i class="fa-solid fa-users"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs text-slate-400 uppercase font-semibold">Unique Visitors</span>
+                                        <h3 class="text-2xl font-extrabold">${analytics.uniqueVisitors}</h3>
+                                    </div>
+                                </div>
+                                <div class="glass-panel p-6 rounded-3xl border border-slate-200 dark:border-slate-800 flex items-center gap-4">
+                                    <div class="w-14 h-14 rounded-2xl bg-amber-50 dark:bg-amber-950 text-amber-600 flex items-center justify-center text-2xl font-bold">
+                                        <i class="fa-solid fa-file-lines"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs text-slate-400 uppercase font-semibold">Active Articles</span>
+                                        <h3 class="text-2xl font-extrabold">${posts.length}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add/Edit Post Modal -->
+                <div id="postModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden">
+                    <div class="glass-panel w-full max-w-xl p-8 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 relative">
+                        <button onclick="closePostModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition">
+                            <i class="fa-solid fa-xmark text-xl"></i>
+                        </button>
+                        <h3 id="postModalTitle" class="text-xl font-bold mb-6">Create New Blog Post</h3>
+                        <form onsubmit="handlePostFormSubmit(event)" class="space-y-4">
+                            <input type="hidden" id="editPostId">
+                            <div>
+                                <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Post Title</label>
+                                <input type="text" id="postTitleInput" required placeholder="Enter article title..." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Category</label>
+                                    <input type="text" id="postCategoryInput" required placeholder="Announcement, Tutorial..." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Author</label>
+                                    <input type="text" id="postAuthorInput" value="Tanveer Hussain" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Content</label>
+                                <textarea id="postContentInput" required rows="5" placeholder="Write post content..." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none"></textarea>
+                            </div>
+                            <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 transition">
+                                Save Post to Firebase
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            `;
+        }
+
+        function switchAdminTab(tabName) {
+            document.querySelectorAll('.admin-tab').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('aside nav button').forEach(el => {
+                el.classList.remove('bg-indigo-600', 'text-white', 'shadow-md', 'shadow-indigo-600/20');
+                el.classList.add('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-100', 'dark:hover:bg-slate-800');
+            });
+            document.getElementById(`adminTab-${tabName}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tabBtn-${tabName}`);
+            activeBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-md', 'shadow-indigo-600/20');
+            activeBtn.classList.remove('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-100', 'dark:hover:bg-slate-800');
+        }
+
+        function initDashboardTabs() {
+            switchAdminTab('posts');
+        }
+
+        function openPostModal(post = null) {
+            const modal = document.getElementById('postModal');
+            document.getElementById('editPostId').value = post ? post.id : '';
+            document.getElementById('postModalTitle').innerText = post ? 'Edit Blog Post' : 'Create New Blog Post';
+            document.getElementById('postTitleInput').value = post ? post.title : '';
+            document.getElementById('postCategoryInput').value = post ? post.category : '';
+            document.getElementById('postAuthorInput').value = post ? post.author : 'Tanveer Hussain';
+            document.getElementById('postContentInput').value = post ? post.content : '';
+            modal.classList.remove('hidden');
+        }
+
+        function closePostModal() {
+            document.getElementById('postModal').classList.add('hidden');
+        }
+
+        function handlePostFormSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('editPostId').value;
+            const title = document.getElementById('postTitleInput').value;
+            const category = document.getElementById('postCategoryInput').value;
+            const author = document.getElementById('postAuthorInput').value;
+            const content = document.getElementById('postContentInput').value;
+            const date = new Date().toISOString().split('T')[0];
+
+            const postData = { title, category, author, content, date };
+
+            if (window.firebaseDB) {
+                const { db, ref, set, push } = window.firebaseDB;
+                if (id) {
+                    set(ref(db, `cms/posts/${id}`), postData);
+                } else {
+                    const newRef = push(ref(db, 'cms/posts'));
+                    set(newRef, postData);
+                }
+            } else {
+                if (id) {
+                    const idx = posts.findIndex(p => p.id === id);
+                    if (idx !== -1) posts[idx] = { id, ...postData };
+                } else {
+                    posts.push({ id: 'p_' + Date.now(), ...postData });
+                }
+            }
+
+            closePostModal();
+            showNotification("Success", "Post saved successfully to Firebase cloud database.");
+            router.navigate('dashboard');
+        }
+
+        function editPost(id) {
+            const post = posts.find(p => p.id === id);
+            if (post) openPostModal(post);
+        }
+
+        function deletePost(id) {
+            if (window.firebaseDB) {
+                const { db, ref, remove } = window.firebaseDB;
+                remove(ref(db, `cms/posts/${id}`));
+            } else {
+                posts = posts.filter(p => p.id !== id);
+            }
+            showNotification("Deleted", "Post removed successfully.");
+            router.navigate('dashboard');
+        }
+
+        function saveSiteSettings(e) {
+            e.preventDefault();
+            siteSettings.title = document.getElementById('settingTitle').value;
+            siteSettings.tagline = document.getElementById('settingTagline').value;
+            siteSettings.heroTitle = document.getElementById('settingHeroTitle').value;
+            siteSettings.heroSubtitle = document.getElementById('settingHeroSubtitle').value;
+
+            if (window.firebaseDB) {
+                const { db, ref, set } = window.firebaseDB;
+                set(ref(db, 'cms/settings'), siteSettings);
+            }
+
+            document.getElementById('navSiteTitle').innerText = siteSettings.title;
+            showNotification("Settings Saved", "Global WordPress site settings updated successfully.");
+        }
+
+        function deleteComment(id) {
+            if (window.firebaseDB) {
+                const { db, ref, remove } = window.firebaseDB;
+                remove(ref(db, `cms/comments/${id}`));
+            } else {
+                comments = comments.filter(c => c.id !== id);
+            }
+            showNotification("Comment Deleted", "Comment removed successfully.");
+            router.navigate('dashboard');
+        }
+
+        // Initialize App on Window Load
+        window.onload = function() {
+            syncDataFromFirebase();
+            router.navigate('home');
+        };
+    </script>
+</body>
+</html>
