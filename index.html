@@ -3,7 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tanveer Hussain | WordPress CMS Cloud - @Vexornull</title>
+    
+    <!-- Primary SEO Meta Tags -->
+    <title id="metaTitle">Tanveer Hussain | Modern Cloud CMS & Portfolio</title>
+    <meta id="metaDesc" name="description" content="Dynamic Brutalist WordPress Cloud CMS built with high performance Firebase Realtime Database and Github Pages by Tanveer Hussain (@vexornull).">
+    <meta name="keywords" content="Tanveer Hussain, vexornull, Cloud CMS, WordPress Cloud, Firebase CMS, Web Developer, Brutalist Design, Portfolio">
+    <meta name="author" content="Tanveer Hussain (@vexornull)">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://vexornull.github.io/wp/">
+
+    <!-- Open Graph / Facebook SEO -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vexornull.github.io/wp/">
+    <meta id="ogTitle" property="og:title" content="Tanveer Hussain | Modern Cloud CMS & Portfolio">
+    <meta id="ogDesc" property="og:description" content="Dynamic Brutalist WordPress Cloud CMS built with high performance Firebase Realtime Database.">
+    <meta property="og:image" content="https://vexornull.github.io/wp/favicon.png">
+
+    <!-- Twitter SEO -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://vexornull.github.io/wp/">
+    <meta id="twTitle" property="twitter:title" content="Tanveer Hussain | Modern Cloud CMS & Portfolio">
+    <meta id="twDesc" property="twitter:description" content="Dynamic Brutalist WordPress Cloud CMS built with high performance Firebase Realtime Database.">
+    <meta property="twitter:image" content="https://vexornull.github.io/wp/favicon.png">
+
+    <!-- Structured Data (JSON-LD) for Search Engines -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Tanveer Hussain CMS",
+      "url": "https://vexornull.github.io/wp/",
+      "author": {
+        "@type": "Person",
+        "name": "Tanveer Hussain",
+        "alternateName": "vexornull",
+        "sameAs": [
+          "https://github.com/vexornull",
+          "https://instagram.com/vexornull",
+          "https://twitter.com/vexornull"
+        ]
+      }
+    }
+    </script>
+
     <!-- Favicon & Touch Icon -->
     <link rel="icon" type="image/png" href="https://vexornull.github.io/wp/favicon.png">
     <link rel="apple-touch-icon" href="https://vexornull.github.io/wp/favicon.png">
@@ -96,7 +138,6 @@
                 <nav class="hidden md:flex items-center space-x-4 text-sm font-bold font-mono">
                     <button onclick="router.navigate('home')" class="px-4 py-2 bg-white dark:bg-neutral-800 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] transition">HOME</button>
                     <button onclick="router.navigate('blog')" class="px-4 py-2 bg-white dark:bg-neutral-800 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] transition">ARTICLES</button>
-                    <button onclick="router.navigate('setup')" class="px-4 py-2 bg-brutLime text-black border-2 border-black shadow-[2px_2px_0px_0px_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] transition flex items-center gap-1.5"><i class="fa-solid fa-book"></i> SETUP GUIDE</button>
                 </nav>
 
                 <div class="flex items-center space-x-3">
@@ -149,7 +190,7 @@
             <form onsubmit="handleAdminLogin(event)" class="space-y-4 font-mono">
                 <div>
                     <label class="block text-xs font-bold uppercase mb-1">Username</label>
-                    <input type="text" id="loginUser" required placeholder="Admin" class="w-full px-4 py-3 border-3 border-black dark:border-white bg-[#F4F4F0] dark:bg-neutral-800 focus:outline-none focus:bg-brutYellow/20 font-bold">
+                    <input type="text" id="loginUser" required placeholder="Enter Username" class="w-full px-4 py-3 border-3 border-black dark:border-white bg-[#F4F4F0] dark:bg-neutral-800 focus:outline-none focus:bg-brutYellow/20 font-bold">
                 </div>
                 <div>
                     <label class="block text-xs font-bold uppercase mb-1">Password</label>
@@ -160,9 +201,6 @@
                     AUTHENTICATE NOW
                 </button>
             </form>
-            <div class="mt-4 text-center text-xs font-mono bg-brutYellow/30 p-2 border-2 border-dashed border-black">
-                Hint: User <code class="bg-black text-brutYellow px-1">Admin12345</code> | Pass <code class="bg-black text-brutYellow px-1">1234567890</code>
-            </div>
         </div>
     </div>
 
@@ -204,6 +242,19 @@
         let comments = [];
         let analytics = { pageViews: 1420, uniqueVisitors: 890, activePosts: 0, pendingComments: 0 };
         let isAdminLoggedIn = localStorage.getItem("vexornull_admin_logged") === "true";
+
+        function updateSEOMeta(title, description) {
+            const finalTitle = title ? `${title} | Tanveer Hussain CMS` : 'Tanveer Hussain | Modern Cloud CMS & Portfolio';
+            const finalDesc = description || siteSettings.heroSubtitle;
+
+            document.title = finalTitle;
+            document.getElementById('metaTitle').innerText = finalTitle;
+            document.getElementById('metaDesc').setAttribute('content', finalDesc);
+            document.getElementById('ogTitle').setAttribute('content', finalTitle);
+            document.getElementById('ogDesc').setAttribute('content', finalDesc);
+            document.getElementById('twTitle').setAttribute('content', finalTitle);
+            document.getElementById('twDesc').setAttribute('content', finalDesc);
+        }
 
         function showNotification(title, message, type = 'success') {
             const modal = document.getElementById('notificationModal');
@@ -325,7 +376,7 @@
                     if (data) {
                         posts = Object.keys(data).map(key => ({ id: key, ...data[key] }));
                     } else {
-                        posts = []; // Clean empty database by default
+                        posts = [];
                     }
                     if (['home', 'blog', 'dashboard'].includes(router.current)) {
                         renderCurrentView();
@@ -353,16 +404,19 @@
 
             switch(router.current) {
                 case 'home':
+                    updateSEOMeta("Home", siteSettings.heroSubtitle);
                     container.innerHTML = renderHomeView();
                     break;
                 case 'blog':
+                    updateSEOMeta("Articles & News", "Explore dynamic technical articles and blog updates.");
                     container.innerHTML = renderBlogView();
                     break;
                 case 'postDetail':
+                    const post = posts.find(p => p.id === param);
+                    if (post) {
+                        updateSEOMeta(post.title, post.content.substring(0, 150));
+                    }
                     container.innerHTML = renderPostDetailView(param);
-                    break;
-                case 'setup':
-                    container.innerHTML = renderSetupGuideView();
                     break;
                 case 'dashboard':
                     if (!isAdminLoggedIn) {
@@ -370,10 +424,12 @@
                         router.navigate('home');
                         return;
                     }
+                    updateSEOMeta("Admin Control Panel", "Manage CMS posts and site configurations.");
                     container.innerHTML = renderDashboardView();
                     initDashboardTabs();
                     break;
                 default:
+                    updateSEOMeta("Home", siteSettings.heroSubtitle);
                     container.innerHTML = renderHomeView();
             }
         }
@@ -395,9 +451,6 @@
                         <div class="flex flex-wrap justify-center gap-4 font-mono">
                             <button onclick="router.navigate('blog')" class="brut-btn px-8 py-4 bg-brutLime text-black uppercase text-base">
                                 BROWSE ARTICLES (${posts.length})
-                            </button>
-                            <button onclick="router.navigate('setup')" class="brut-btn px-8 py-4 bg-white dark:bg-neutral-800 uppercase text-base">
-                                SETUP GUIDE
                             </button>
                         </div>
                     </div>
@@ -553,50 +606,6 @@
 
             showNotification("SUCCESS", "Comment posted successfully.");
             router.navigate('postDetail', postId);
-        }
-
-        function renderSetupGuideView() {
-            return `
-                <div class="max-w-4xl mx-auto px-4 py-12 w-full space-y-8 font-mono">
-                    <div class="text-center pb-6 border-b-4 border-black dark:border-white">
-                        <span class="px-4 py-1.5 text-xs font-bold bg-brutYellow text-black border-2 border-black mb-4 inline-block uppercase">
-                            OFFICIAL DOCUMENTATION
-                        </span>
-                        <h1 class="text-3xl sm:text-5xl font-black uppercase mb-3">SETUP & DEPLOYMENT</h1>
-                        <p class="text-xs font-bold text-gray-600 dark:text-gray-400">HOST YOUR BRUTALIST CMS ON GITHUB PAGES WITH SECURE FIREBASE CONFIG.</p>
-                    </div>
-
-                    <div class="brut-panel p-8 space-y-8">
-                        <div class="flex items-start gap-4">
-                            <div class="w-10 h-10 bg-black text-brutYellow border-2 border-black flex items-center justify-center font-black flex-shrink-0 text-lg">1</div>
-                            <div>
-                                <h3 class="font-black text-lg uppercase mb-1">CREATE `+`firebase-config.js`+`</h3>
-                                <p class="text-xs font-bold text-gray-600 dark:text-gray-400 mb-3">Keep API keys safe by putting them in a separate configuration file in root folder:</p>
-                                <pre class="bg-black text-brutLime p-4 text-xs font-mono overflow-x-auto border-2 border-white"><code>export const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "wordpress-c971f.firebaseapp.com",
-  databaseURL: "https://wordpress-c971f-default-rtdb.firebaseio.com",
-  projectId: "wordpress-c971f",
-  storageBucket: "wordpress-c971f.firebasestorage.app",
-  messagingSenderId: "828580995189",
-  appId: "YOUR_APP_ID"
-};</code></pre>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="w-10 h-10 bg-black text-brutYellow border-2 border-black flex items-center justify-center font-black flex-shrink-0 text-lg">2</div>
-                            <div>
-                                <h3 class="font-black text-lg uppercase mb-1">PUSH TO GITHUB</h3>
-                                <pre class="bg-black text-white p-4 text-xs font-mono overflow-x-auto border-2 border-white"><code>git init
-git add .
-git commit -m "Brutal CMS update by @vexornull"
-git push origin main</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
         }
 
         function renderDashboardView() {
@@ -824,7 +833,7 @@ git push origin main</code></pre>
         function openPostModal(post = null) {
             const modal = document.getElementById('postModal');
             document.getElementById('editPostId').value = post ? post.id : '';
-            document.getElementById('postModalTitleinnerText' || 'postModalTitle').innerText = post ? 'EDIT POST' : 'NEW POST';
+            document.getElementById('postModalTitle').innerText = post ? 'EDIT POST' : 'NEW POST';
             document.getElementById('postTitleInput').value = post ? post.title : '';
             document.getElementById('postCategoryInput').value = post ? post.category : '';
             document.getElementById('postAuthorInput').value = post ? post.author : 'Tanveer Hussain';
