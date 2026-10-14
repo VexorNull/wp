@@ -9,58 +9,104 @@
     <link rel="apple-touch-icon" href="https://vexornull.github.io/wp/favicon.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    fontFamily: { 
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    },
+                    colors: {
+                        brutYellow: '#FFE600',
+                        brutLime: '#00FF66',
+                        brutPink: '#FF007F',
+                        brutCyan: '#00F0FF',
+                        brutDark: '#121212',
+                    },
+                    boxShadow: {
+                        'brut': '4px 4px 0px 0px #000000',
+                        'brut-dark': '4px 4px 0px 0px #FFFFFF',
+                        'brut-lg': '6px 6px 0px 0px #000000',
+                    }
                 }
             }
         }
     </script>
     <style>
-        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
-        .dark .glass-panel { background: rgba(17, 24, 39, 0.95); backdrop-filter: blur(10px); }
+        .brut-panel { 
+            background: #FFFFFF; 
+            border: 4px solid #000000; 
+            box-shadow: 4px 4px 0px 0px #000000; 
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+        .brut-panel:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px 0px #000000;
+        }
+        .dark .brut-panel { 
+            background: #1A1A1A; 
+            border: 4px solid #FFFFFF; 
+            box-shadow: 4px 4px 0px 0px #FFFFFF; 
+        }
+        .dark .brut-panel:hover {
+            box-shadow: 6px 6px 0px 0px #FFFFFF;
+        }
+        
+        .brut-btn {
+            border: 3px solid #000000;
+            box-shadow: 3px 3px 0px 0px #000000;
+            font-weight: 700;
+            transition: all 0.05s ease;
+        }
+        .brut-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px 0px #000000;
+        }
+        .dark .brut-btn {
+            border: 3px solid #FFFFFF;
+            box-shadow: 3px 3px 0px 0px #FFFFFF;
+        }
+
         /* Custom scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-        .dark ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 3px; }
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: #FFE600; border-left: 3px solid #000; }
+        ::-webkit-scrollbar-thumb { background: #000000; border: 2px solid #FFE600; }
     </style>
 </head>
-<body class="h-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col justify-between">
+<body class="h-full bg-[#F4F4F0] dark:bg-brutDark text-black dark:text-white font-sans antialiased flex flex-col justify-between selection:bg-brutYellow selection:text-black">
 
     <div id="app" class="flex-grow flex flex-col">
         <!-- Navigation Header -->
-        <header class="sticky top-0 z-50 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-                <div class="flex items-center space-x-3 cursor-pointer" onclick="router.navigate('home')">
-                    <div id="navLogoIcon" class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
-                        <i class="fa-solid fa-cube text-lg"></i>
+        <header class="sticky top-0 z-50 border-b-4 border-black dark:border-white bg-brutYellow dark:bg-neutral-900 transition-colors">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                <div class="flex items-center space-x-3 cursor-pointer group" onclick="router.navigate('home')">
+                    <div id="navLogoIcon" class="w-12 h-12 border-3 border-black dark:border-white bg-brutPink flex items-center justify-center text-white shadow-[3px_3px_0px_0px_#000] font-black text-xl group-hover:rotate-6 transition-transform">
+                        <i class="fa-solid fa-cube"></i>
                     </div>
                     <div>
-                        <span id="navSiteTitle" class="font-bold text-lg tracking-tight">Web-Developer</span>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">Powered by @vexornull CMS</p>
+                        <span id="navSiteTitle" class="font-black text-xl tracking-tighter uppercase font-mono">Web-Developer</span>
+                        <p class="text-xs font-bold font-mono bg-black text-white dark:bg-white dark:text-black px-1 inline-block mt-0.5">@vexornull CMS</p>
                     </div>
                 </div>
 
-                <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
-                    <button onclick="router.navigate('home')" class="hover:text-indigo-600 transition">Home</button>
-                    <button onclick="router.navigate('blog')" class="hover:text-indigo-600 transition">Articles</button>
-                    <button onclick="router.navigate('setup')" class="hover:text-indigo-600 transition text-amber-600 dark:text-amber-400 flex items-center gap-1.5"><i class="fa-solid fa-book"></i> Setup Guide</button>
+                <nav class="hidden md:flex items-center space-x-4 text-sm font-bold font-mono">
+                    <button onclick="router.navigate('home')" class="px-4 py-2 bg-white dark:bg-neutral-800 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] transition">HOME</button>
+                    <button onclick="router.navigate('blog')" class="px-4 py-2 bg-white dark:bg-neutral-800 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] transition">ARTICLES</button>
+                    <button onclick="router.navigate('setup')" class="px-4 py-2 bg-brutLime text-black border-2 border-black shadow-[2px_2px_0px_0px_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] transition flex items-center gap-1.5"><i class="fa-solid fa-book"></i> SETUP GUIDE</button>
                 </nav>
 
                 <div class="flex items-center space-x-3">
-                    <button id="themeToggleBtn" onclick="toggleTheme()" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-                        <i class="fa-solid fa-moon dark:hidden"></i>
-                        <i class="fa-solid fa-sun hidden dark:block text-amber-400"></i>
+                    <button id="themeToggleBtn" onclick="toggleTheme()" class="p-3 bg-white dark:bg-neutral-800 border-3 border-black dark:border-white shadow-[3px_3px_0px_0px_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] transition">
+                        <i class="fa-solid fa-moon dark:hidden text-lg"></i>
+                        <i class="fa-solid fa-sun hidden dark:block text-brutYellow text-lg"></i>
                     </button>
                     <div id="authNavArea">
-                        <button onclick="openLoginModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl shadow-md shadow-indigo-600/20 transition flex items-center gap-2">
-                            <i class="fa-solid fa-lock text-xs"></i> Admin Login
+                        <button onclick="openLoginModal()" class="brut-btn px-4 py-2.5 bg-brutCyan text-black rounded-none flex items-center gap-2 text-sm font-mono">
+                            <i class="fa-solid fa-lock text-xs"></i> ADMIN LOGIN
                         </button>
                     </div>
                 </div>
@@ -73,59 +119,60 @@
         </main>
     </div>
 
-    <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-8 px-4 sm:px-8 mt-auto">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500 dark:text-slate-400">
-            <div class="flex items-center gap-2">
-                <span>&copy; 2026 WordPress Cloud CMS. Developed with &hearts; by</span>
-                <a href="https://Instagram.com/vexornull" target="_blank" class="font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Tanveer Hussain (@vexornull)</a>
+    <footer class="border-t-4 border-black dark:border-white bg-white dark:bg-neutral-900 py-8 px-4 sm:px-8 mt-auto font-mono">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm font-bold">
+            <div class="flex items-center gap-2 flex-wrap">
+                <span class="bg-black text-white dark:bg-white dark:text-black px-2 py-1">&copy; 2026 BRUTAL CMS</span>
+                <span>Developed by</span>
+                <a href="https://Instagram.com/vexornull" target="_blank" class="bg-brutYellow px-2 py-1 border-2 border-black text-black hover:underline">Tanveer Hussain (@vexornull)</a>
             </div>
-            <div class="flex items-center space-x-6">
-                <a href="https://github.com/vexornull" target="_blank" class="hover:text-indigo-600 transition flex items-center gap-1.5"><i class="fa-brands fa-github"></i> @vexornull</a>
-                <a href="https://twitter.com/vexornull" target="_blank" class="hover:text-indigo-600 transition flex items-center gap-1.5"><i class="fa-brands fa-twitter"></i> @vexornull</a>
-                <a href="https://linkedin.com/in/vexornull" target="_blank" class="hover:text-indigo-600 transition flex items-center gap-1.5"><i class="fa-brands fa-linkedin"></i> @vexornull</a>
+            <div class="flex items-center space-x-4">
+                <a href="https://github.com/vexornull" target="_blank" class="px-3 py-1 bg-brutCyan border-2 border-black text-black hover:bg-black hover:text-white transition flex items-center gap-1.5"><i class="fa-brands fa-github"></i> GITHUB</a>
+                <a href="https://twitter.com/vexornull" target="_blank" class="px-3 py-1 bg-brutPink border-2 border-black text-white hover:bg-black transition flex items-center gap-1.5"><i class="fa-brands fa-twitter"></i> TWITTER</a>
             </div>
         </div>
     </footer>
 
-    <div id="loginModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden">
-        <div class="glass-panel w-full max-w-md p-8 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 relative animate-in fade-in zoom-in duration-200">
-            <button onclick="closeLoginModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition">
-                <i class="fa-solid fa-xmark text-xl"></i>
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-none hidden">
+        <div class="brut-panel w-full max-w-md p-8 relative animate-in zoom-in-95 duration-100">
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 w-10 h-10 bg-brutPink text-white border-2 border-black font-bold flex items-center justify-center hover:bg-black transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
             </button>
             <div class="text-center mb-6">
-                <div class="w-14 h-14 bg-indigo-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-indigo-600/30">
+                <div class="w-16 h-16 bg-brutYellow border-3 border-black text-black flex items-center justify-center mx-auto mb-3 shadow-[4px_4px_0px_0px_#000]">
                     <i class="fa-solid fa-shield-halved text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-bold">Admin Portal Login</h3>
-                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Enter credentials to access WordPress Dashboard</p>
+                <h3 class="text-2xl font-black uppercase font-mono tracking-tight">Admin Portal</h3>
+                <p class="text-xs font-mono font-bold mt-1 bg-black text-white py-0.5 px-2 inline-block">SECURE AUTHENTICATION</p>
             </div>
-            <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+            <form onsubmit="handleAdminLogin(event)" class="space-y-4 font-mono">
                 <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Username</label>
-                    <input type="text" id="loginUser" required placeholder="Admin" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-indigo-600 outline-none transition">
+                    <label class="block text-xs font-bold uppercase mb-1">Username</label>
+                    <input type="text" id="loginUser" required placeholder="Admin" class="w-full px-4 py-3 border-3 border-black dark:border-white bg-[#F4F4F0] dark:bg-neutral-800 focus:outline-none focus:bg-brutYellow/20 font-bold">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Password</label>
-                    <input type="password" id="loginPass" required placeholder="••••••••" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-indigo-600 outline-none transition">
+                    <label class="block text-xs font-bold uppercase mb-1">Password</label>
+                    <input type="password" id="loginPass" required placeholder="••••••••" class="w-full px-4 py-3 border-3 border-black dark:border-white bg-[#F4F4F0] dark:bg-neutral-800 focus:outline-none focus:bg-brutYellow/20 font-bold">
                 </div>
-                <div id="loginError" class="text-rose-500 text-xs font-medium hidden"></div>
-                <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 transition">
-                    Authenticate Dashboard
+                <div id="loginError" class="bg-brutPink text-white p-2 text-xs font-bold border-2 border-black hidden"></div>
+                <button type="submit" class="brut-btn w-full py-3 bg-brutLime text-black uppercase font-mono">
+                    AUTHENTICATE NOW
                 </button>
             </form>
-            <div class="mt-4 text-center text-xs text-slate-400">
-                Hint: Username <code class="bg-slate-200 dark:bg-slate-800 px-1 py-0.5 rounded text-indigo-500">Admin12345</code> | Pass <code class="bg-slate-200 dark:bg-slate-800 px-1 py-0.5 rounded text-indigo-500">1234567890</code>
+            <div class="mt-4 text-center text-xs font-mono bg-brutYellow/30 p-2 border-2 border-dashed border-black">
+                Hint: User <code class="bg-black text-brutYellow px-1">Admin12345</code> | Pass <code class="bg-black text-brutYellow px-1">1234567890</code>
             </div>
         </div>
     </div>
 
-    <!-- Custom Notification Modal -->
-    <div id="notificationModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden">
-        <div class="glass-panel w-full max-w-sm p-6 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 text-center">
-            <div id="notifIcon" class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 text-white text-xl"></div>
-            <h4 id="notifTitle" class="font-bold text-lg mb-1">Notice</h4>
-            <p id="notifMessage" class="text-sm text-slate-500 dark:text-slate-400 mb-5"></p>
-            <button onclick="closeNotification()" class="w-full py-2.5 bg-indigo-600 text-white font-medium rounded-xl hover:bg-indigo-700 transition">OK</button>
+    <!-- Notification Modal -->
+    <div id="notificationModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 hidden">
+        <div class="brut-panel w-full max-w-sm p-6 text-center font-mono">
+            <div id="notifIcon" class="w-14 h-14 border-3 border-black flex items-center justify-center mx-auto mb-3 text-black text-xl shadow-[3px_3px_0px_0px_#000]"></div>
+            <h4 id="notifTitle" class="font-black text-xl uppercase mb-1">Notice</h4>
+            <p id="notifMessage" class="text-sm font-bold mb-5"></p>
+            <button onclick="closeNotification()" class="brut-btn w-full py-3 bg-brutYellow text-black uppercase">OKAY</button>
         </div>
     </div>
 
@@ -134,35 +181,30 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getDatabase, ref, set, get, update, remove, push, onValue } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
-        // Initialize Firebase
         let app, db;
         try {
             app = initializeApp(firebaseConfig);
             db = getDatabase(app);
             window.firebaseDB = { ref, set, get, update, remove, push, onValue, db };
-            console.log("Firebase initialized successfully via external config file.");
         } catch (err) {
-            console.error("Firebase initialization failed:", err);
+            console.error("Firebase init failed:", err);
         }
     </script>
 
     <script>
-        // Global State & UI Helpers
         let siteSettings = {
             title: "@VexorNull",
-            tagline: "A Full-Featured Cloud CMS built by Tanveer Hussain",
-            primaryColor: "indigo",
-            accentColor: "blue",
-            heroTitle: "Build Fast. Control Everything.",
-            heroSubtitle: "Your dynamic WordPress-like platform backed by secure Firebase storage and GitHub hosting."
+            tagline: "Brutalist Cloud CMS built by Tanveer Hussain",
+            primaryColor: "yellow",
+            heroTitle: "RAW CODE. ZERO FLUFF. TOTAL CONTROL.",
+            heroSubtitle: "Your aggressive, lightning-fast WordPress alternative powered by Firebase & GitHub."
         };
 
         let posts = [];
         let comments = [];
-        let analytics = { pageViews: 1420, uniqueVisitors: 890, activePosts: 5, pendingComments: 2 };
+        let analytics = { pageViews: 1420, uniqueVisitors: 890, activePosts: 0, pendingComments: 0 };
         let isAdminLoggedIn = localStorage.getItem("vexornull_admin_logged") === "true";
 
-        // Show Custom Notification Modal instead of alert()
         function showNotification(title, message, type = 'success') {
             const modal = document.getElementById('notificationModal');
             const iconDiv = document.getElementById('notifIcon');
@@ -170,8 +212,8 @@
             document.getElementById('notifMessage').innerText = message;
             
             iconDiv.className = type === 'success' 
-                ? "w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 bg-emerald-500 text-white text-xl shadow-lg shadow-emerald-500/30"
-                : "w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 bg-rose-500 text-white text-xl shadow-lg shadow-rose-500/30";
+                ? "w-14 h-14 border-3 border-black flex items-center justify-center mx-auto mb-3 bg-brutLime text-black text-xl shadow-[3px_3px_0px_0px_#000]"
+                : "w-14 h-14 border-3 border-black flex items-center justify-center mx-auto mb-3 bg-brutPink text-white text-xl shadow-[3px_3px_0px_0px_#000]";
             iconDiv.innerHTML = type === 'success' ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-triangle-exclamation"></i>';
             
             modal.classList.remove('hidden');
@@ -200,15 +242,15 @@
             const p = document.getElementById('loginPass').value.trim();
             const errDiv = document.getElementById('loginError');
 
-            if (u === "Admin" && p === "11ko12ne13bar14") {
+            if (u === "Admin12345" && p === "1234567890") {
                 isAdminLoggedIn = true;
                 localStorage.setItem("vexornull_admin_logged", "true");
                 closeLoginModal();
                 updateAuthNav();
-                showNotification("Welcome Admin!", "Successfully logged into WordPress CMS Dashboard.");
+                showNotification("ACCESS GRANTED", "Welcome to Brutalist CMS Dashboard.");
                 router.navigate('dashboard');
             } else {
-                errDiv.innerText = "Invalid Username or Password. Try Contact to admin / @vexornull ";
+                errDiv.innerText = "ACCESS DENIED: Invalid credentials.";
                 errDiv.classList.remove('hidden');
             }
         }
@@ -217,7 +259,7 @@
             isAdminLoggedIn = false;
             localStorage.removeItem("vexornull_admin_logged");
             updateAuthNav();
-            showNotification("Logged Out", "You have securely exited the admin panel.", "success");
+            showNotification("LOGGED OUT", "Session terminated securely.");
             router.navigate('home');
         }
 
@@ -226,18 +268,18 @@
             if (isAdminLoggedIn) {
                 area.innerHTML = `
                     <div class="flex items-center gap-2">
-                        <button onclick="router.navigate('dashboard')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl shadow-md shadow-emerald-600/20 transition flex items-center gap-2">
-                            <i class="fa-solid fa-gauge text-xs"></i> Dashboard
+                        <button onclick="router.navigate('dashboard')" class="brut-btn px-4 py-2 bg-brutLime text-black font-mono text-xs">
+                            <i class="fa-solid fa-gauge"></i> DASHBOARD
                         </button>
-                        <button onclick="adminLogout()" title="Logout" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-rose-50 dark:hover:bg-rose-900/30 text-rose-500 transition">
+                        <button onclick="adminLogout()" title="Logout" class="brut-btn p-2.5 bg-brutPink text-white">
                             <i class="fa-solid fa-power-off"></i>
                         </button>
                     </div>
                 `;
             } else {
                 area.innerHTML = `
-                    <button onclick="openLoginModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl shadow-md shadow-indigo-600/20 transition flex items-center gap-2">
-                        <i class="fa-solid fa-lock text-xs"></i> Admin Login
+                    <button onclick="openLoginModal()" class="brut-btn px-4 py-2 bg-brutCyan text-black text-xs font-mono">
+                        <i class="fa-solid fa-lock"></i> ADMIN LOGIN
                     </button>
                 `;
             }
@@ -253,7 +295,6 @@
             }
         }
 
-        // Initialize Theme from localStorage
         if (localStorage.getItem('vexornull_theme') === 'dark' || (!('vexornull_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         }
@@ -267,12 +308,10 @@
             }
         };
 
-        // Firebase Sync helpers with Fallback to LocalStorage
         function syncDataFromFirebase() {
             if (window.firebaseDB) {
                 const { db, ref, onValue } = window.firebaseDB;
                 
-                // Settings sync
                 onValue(ref(db, 'cms/settings'), (snapshot) => {
                     const data = snapshot.val();
                     if (data) {
@@ -281,43 +320,29 @@
                     }
                 });
 
-                // Posts sync
                 onValue(ref(db, 'cms/posts'), (snapshot) => {
                     const data = snapshot.val();
                     if (data) {
                         posts = Object.keys(data).map(key => ({ id: key, ...data[key] }));
                     } else {
-                        // Default mock posts if empty
-                        posts = [
-                            { id: '1', title: 'Welcome to @vexornull CMS', category: 'Announcement', date: '2026-06-01', content: 'This fully responsive content management system is engineered and styled by Tanveer Hussain (@vexornull). Enjoy lightning-fast Firebase integration.', author: 'Tanveer Hussain' },
-                            { id: '2', title: 'Mastering Hosting', category: 'Tutorial', date: '2026-06-03', content: 'Learn how to separate your Firebase API keys into a secure local configuration file and publish static web apps seamlessly.', author: 'Tanveer Hussain' }
-                        ];
+                        posts = []; // Clean empty database by default
                     }
-                    if (router.current === 'home' || router.current === 'blog' || router.current === 'dashboard') {
+                    if (['home', 'blog', 'dashboard'].includes(router.current)) {
                         renderCurrentView();
                     }
                 });
 
-                // Comments sync
                 onValue(ref(db, 'cms/comments'), (snapshot) => {
                     const data = snapshot.val();
                     if (data) {
                         comments = Object.keys(data).map(key => ({ id: key, ...data[key] }));
                     } else {
-                        comments = [
-                            { id: 'c1', postId: '1', author: 'Alex Morgan', comment: 'Amazing CMS setup! Clean design by @vexornull.', date: '2026-06-04', status: 'Approved' }
-                        ];
+                        comments = [];
                     }
                 });
             } else {
-                // Fallback demo data
-                posts = [
-                    { id: '1', title: 'Welcome to @vexornull', category: 'Announcement', date: '2026-06-01', content: 'This fully responsive content management system is engineered and styled by Tanveer Hussain (@vexornull).', author: 'Tanveer Hussain' },
-                    { id: '2', title: 'Mastering Hosting', category: 'Tutorial', date: '2026-06-03', content: 'Learn how to separate your Firebase API keys into a secure local configuration file.', author: 'Tanveer Hussain' }
-                ];
-                comments = [
-                    { id: 'c1', postId: '1', author: 'Alex Morgan', comment: 'Amazing CMS setup! Clean design by @vexornull.', date: '2026-06-04', status: 'Approved' }
-                ];
+                posts = [];
+                comments = [];
                 renderCurrentView();
             }
         }
@@ -356,53 +381,59 @@
         function renderHomeView() {
             const recentPosts = posts.slice(0, 3);
             return `
-                <section class="relative overflow-hidden py-20 lg:py-32 bg-gradient-to-b from-indigo-50/50 dark:from-slate-800/50 to-transparent">
+                <section class="relative py-16 lg:py-24 bg-brutYellow border-b-4 border-black dark:border-white dark:bg-neutral-900">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-                        <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-indigo-100 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 mb-6">
-                            <i class="fa-solid fa-sparkles"></i> Created by Tanveer Hussain (@vexornull)
+                        <span class="inline-block px-4 py-1.5 font-mono text-xs font-bold bg-black text-brutYellow border-2 border-black mb-6 uppercase tracking-wider shadow-[3px_3px_0px_0px_#FFF]">
+                            ENGINEERED BY TANVEER HUSSAIN (@VEXORNULL)
                         </span>
-                        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 max-w-4xl mx-auto">
+                        <h1 class="text-4xl sm:text-7xl font-black tracking-tighter uppercase mb-6 max-w-5xl mx-auto font-mono">
                             ${siteSettings.heroTitle}
                         </h1>
-                        <p class="text-lg sm:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-10">
+                        <p class="text-base sm:text-xl font-bold max-w-2xl mx-auto mb-10 font-mono bg-white dark:bg-black p-3 border-3 border-black dark:border-white shadow-[4px_4px_0px_0px_#000]">
                             ${siteSettings.heroSubtitle}
                         </p>
-                        <div class="flex flex-wrap justify-center gap-4">
-                            <button onclick="router.navigate('blog')" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-2xl shadow-xl shadow-indigo-600/30 transition">
-                                Explore Articles
+                        <div class="flex flex-wrap justify-center gap-4 font-mono">
+                            <button onclick="router.navigate('blog')" class="brut-btn px-8 py-4 bg-brutLime text-black uppercase text-base">
+                                BROWSE ARTICLES (${posts.length})
                             </button>
-                            <button onclick="router.navigate('setup')" class="px-8 py-4 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 font-semibold rounded-2xl transition flex items-center gap-2">
-                                <i class="fa-solid fa-code text-indigo-600"></i> Setup Guide
+                            <button onclick="router.navigate('setup')" class="brut-btn px-8 py-4 bg-white dark:bg-neutral-800 uppercase text-base">
+                                SETUP GUIDE
                             </button>
                         </div>
                     </div>
                 </section>
 
                 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full">
-                    <div class="flex items-center justify-between mb-8">
+                    <div class="flex items-center justify-between mb-8 pb-4 border-b-4 border-black dark:border-white">
                         <div>
-                            <h2 class="text-2xl font-bold tracking-tight">Latest Blog Posts</h2>
-                            <p class="text-sm text-slate-500 dark:text-slate-400">Published dynamically from Firebase Realtime Database</p>
+                            <h2 class="text-3xl font-black uppercase tracking-tight font-mono">LATEST POSTS</h2>
+                            <p class="text-xs font-mono font-bold text-gray-600 dark:text-gray-400">REALTIME DATA SYNCED FROM FIREBASE</p>
                         </div>
-                        <button onclick="router.navigate('blog')" class="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline text-sm flex items-center gap-1">
-                            View All <i class="fa-solid fa-arrow-right text-xs"></i>
+                        <button onclick="router.navigate('blog')" class="brut-btn px-4 py-2 bg-brutCyan text-black text-xs font-mono">
+                            VIEW ALL &rarr;
                         </button>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        ${recentPosts.length === 0 ? '<p class="text-slate-500">No posts published yet. Access Dashboard to create one!</p>' : recentPosts.map(p => `
-                            <div class="glass-panel rounded-3xl border border-slate-200 dark:border-slate-800 p-6 flex flex-col justify-between hover:shadow-xl transition group cursor-pointer" onclick="router.navigate('postDetail', '${p.id}')">
+                        ${recentPosts.length === 0 ? `
+                            <div class="col-span-3 brut-panel p-12 text-center font-mono">
+                                <h3 class="text-xl font-bold mb-2">NO POSTS FOUND IN DATABASE</h3>
+                                <p class="text-xs text-gray-500 mb-6">Login to the Admin Dashboard to publish your first brutal article.</p>
+                                <button onclick="openLoginModal()" class="brut-btn px-6 py-3 bg-brutYellow text-black text-xs uppercase">GO TO LOGIN</button>
+                            </div>
+                        ` : recentPosts.map(p => `
+                            <div class="brut-panel p-6 flex flex-col justify-between cursor-pointer group" onclick="router.navigate('postDetail', '${p.id}')">
                                 <div>
-                                    <div class="flex items-center justify-between mb-4">
-                                        <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 text-xs font-semibold rounded-full">${p.category || 'General'}</span>
-                                        <span class="text-xs text-slate-400">${p.date}</span>
+                                    <div class="flex items-center justify-between mb-4 font-mono">
+                                        <span class="px-2.5 py-1 bg-brutCyan text-black text-xs font-bold border-2 border-black">${p.category || 'GENERAL'}</span>
+                                        <span class="text-xs font-bold">${p.date}</span>
                                     </div>
-                                    <h3 class="font-bold text-xl mb-3 group-hover:text-indigo-600 transition">${p.title}</h3>
-                                    <p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-3 mb-6">${p.content}</p>
+                                    <h3 class="font-black text-xl mb-3 group-hover:underline uppercase font-mono">${p.title}</h3>
+                                    <p class="text-sm font-mono line-clamp-3 mb-6 text-gray-700 dark:text-gray-300">${p.content}</p>
                                 </div>
-                                <div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500">
-                                    <span>By ${p.author || 'Tanveer Hussain'}</span>
-                                    <span class="font-semibold text-indigo-600 flex items-center gap-1">Read Post <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+                                <div class="flex items-center justify-between pt-4 border-t-2 border-black dark:border-white font-mono text-xs font-bold">
+                                    <span>BY ${p.author || 'TANVEER'}</span>
+                                    <span class="bg-black text-white dark:bg-white dark:text-black px-2 py-1">READ &rarr;</span>
                                 </div>
                             </div>
                         `).join('')}
@@ -413,26 +444,31 @@
 
         function renderBlogView() {
             return `
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-                    <div class="mb-10 text-center">
-                        <h1 class="text-3xl font-extrabold mb-2">All Articles & Pages</h1>
-                        <p class="text-slate-500 dark:text-slate-400">Browse through all content stored in your cloud WordPress CMS.</p>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full font-mono">
+                    <div class="mb-10 text-center pb-6 border-b-4 border-black dark:border-white">
+                        <h1 class="text-4xl font-black uppercase mb-2">ALL ARTICLES</h1>
+                        <p class="text-xs font-bold bg-brutYellow text-black inline-block px-2 py-1 border-2 border-black">ARCHIVE OF CLOUD CMS POSTS</p>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        ${posts.map(p => `
-                            <div class="glass-panel rounded-3xl border border-slate-200 dark:border-slate-800 p-6 flex flex-col justify-between hover:shadow-xl transition cursor-pointer" onclick="router.navigate('postDetail', '${p.id}')">
+                        ${posts.length === 0 ? `
+                            <div class="col-span-full brut-panel p-12 text-center">
+                                <h3 class="text-xl font-bold mb-2">ZERO POSTS PUBLISHED</h3>
+                                <p class="text-xs text-gray-500 mb-4">Use the admin panel to create posts.</p>
+                            </div>
+                        ` : posts.map(p => `
+                            <div class="brut-panel p-6 flex flex-col justify-between cursor-pointer" onclick="router.navigate('postDetail', '${p.id}')">
                                 <div>
                                     <div class="flex items-center justify-between mb-4">
-                                        <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 text-xs font-semibold rounded-full">${p.category || 'General'}</span>
-                                        <span class="text-xs text-slate-400">${p.date}</span>
+                                        <span class="px-2 py-1 bg-brutPink text-white text-xs font-bold border-2 border-black">${p.category || 'GENERAL'}</span>
+                                        <span class="text-xs font-bold">${p.date}</span>
                                     </div>
-                                    <h3 class="font-bold text-xl mb-3">${p.title}</h3>
-                                    <p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-3 mb-6">${p.content}</p>
+                                    <h3 class="font-black text-xl mb-3 uppercase">${p.title}</h3>
+                                    <p class="text-sm line-clamp-3 mb-6 text-gray-700 dark:text-gray-300">${p.content}</p>
                                 </div>
-                                <div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500">
-                                    <span>By ${p.author || 'Tanveer Hussain'}</span>
-                                    <span class="font-semibold text-indigo-600 flex items-center gap-1">Read More <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+                                <div class="flex items-center justify-between pt-4 border-t-2 border-black dark:border-white text-xs font-bold">
+                                    <span>${p.author || 'TANVEER'}</span>
+                                    <span class="bg-black text-white dark:bg-white dark:text-black px-2 py-1">READ &rarr;</span>
                                 </div>
                             </div>
                         `).join('')}
@@ -443,53 +479,53 @@
 
         function renderPostDetailView(postId) {
             const post = posts.find(p => p.id === postId) || posts[0];
-            if (!post) return `<div class="p-12 text-center">Post not found.</div>`;
-            const postComments = comments.filter(c => c.postId === post.id && c.status === 'Approved');
+            if (!post) return `<div class="p-12 text-center font-mono">Post not found.</div>`;
+            const postComments = comments.filter(c => c.postId === post.id);
 
             return `
-                <article class="max-w-4xl mx-auto px-4 py-12 w-full">
-                    <button onclick="router.navigate('blog')" class="mb-6 text-sm text-indigo-600 dark:text-indigo-400 font-semibold hover:underline flex items-center gap-1.5">
-                        <i class="fa-solid fa-arrow-left"></i> Back to Articles
+                <article class="max-w-4xl mx-auto px-4 py-12 w-full font-mono">
+                    <button onclick="router.navigate('blog')" class="brut-btn px-4 py-2 bg-brutYellow text-black text-xs font-bold mb-6 inline-flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i> BACK TO ARTICLES
                     </button>
-                    <div class="flex items-center gap-3 mb-4">
-                        <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 text-xs font-semibold rounded-full">${post.category || 'General'}</span>
-                        <span class="text-xs text-slate-400"><i class="fa-regular fa-calendar"></i> ${post.date}</span>
-                        <span class="text-xs text-slate-400"><i class="fa-regular fa-user"></i> ${post.author || 'Tanveer Hussain'}</span>
+                    <div class="flex flex-wrap items-center gap-3 mb-4 text-xs font-bold">
+                        <span class="px-3 py-1 bg-brutCyan text-black border-2 border-black">${post.category || 'GENERAL'}</span>
+                        <span class="bg-black text-white px-2 py-1">${post.date}</span>
+                        <span class="bg-brutPink text-white px-2 py-1">BY ${post.author || 'TANVEER'}</span>
                     </div>
-                    <h1 class="text-3xl sm:text-4xl font-extrabold mb-8">${post.title}</h1>
+                    <h1 class="text-3xl sm:text-5xl font-black mb-8 uppercase tracking-tight">${post.title}</h1>
                     
-                    <div class="glass-panel p-8 rounded-3xl border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 leading-relaxed text-lg mb-12 whitespace-pre-wrap">
+                    <div class="brut-panel p-8 text-base leading-relaxed mb-12 whitespace-pre-wrap font-sans">
                         ${post.content}
                     </div>
 
                     <!-- Comments Section -->
-                    <div class="border-t border-slate-200 dark:border-slate-800 pt-10">
-                        <h3 class="text-2xl font-bold mb-6">Comments (${postComments.length})</h3>
+                    <div class="border-t-4 border-black dark:border-white pt-10">
+                        <h3 class="text-2xl font-black uppercase mb-6">COMMENTS (${postComments.length})</h3>
                         <div class="space-y-4 mb-8">
-                            ${postComments.length === 0 ? '<p class="text-sm text-slate-500">No comments yet. Be the first to comment!</p>' : postComments.map(c => `
-                                <div class="p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
-                                    <div class="flex items-center justify-between mb-2">
-                                        <span class="font-semibold text-sm">${c.author}</span>
-                                        <span class="text-xs text-slate-400">${c.date}</span>
+                            ${postComments.length === 0 ? '<p class="text-xs font-bold text-gray-500 bg-white dark:bg-neutral-800 p-4 border-2 border-black">No comments yet. Be the first!</p>' : postComments.map(c => `
+                                <div class="brut-panel p-4">
+                                    <div class="flex items-center justify-between mb-2 text-xs font-bold">
+                                        <span class="bg-brutYellow text-black px-2 py-0.5 border border-black">${c.author}</span>
+                                        <span>${c.date}</span>
                                     </div>
-                                    <p class="text-sm text-slate-600 dark:text-slate-300">${c.comment}</p>
+                                    <p class="text-sm font-sans">${c.comment}</p>
                                 </div>
                             `).join('')}
                         </div>
 
                         <!-- Add Comment Form -->
-                        <form onsubmit="handleCommentSubmit(event, '${post.id}')" class="glass-panel p-6 rounded-3xl border border-slate-200 dark:border-slate-800 space-y-4">
-                            <h4 class="font-bold text-lg">Leave a Comment</h4>
+                        <form onsubmit="handleCommentSubmit(event, '${post.id}')" class="brut-panel p-6 space-y-4">
+                            <h4 class="font-black text-lg uppercase">LEAVE A COMMENT</h4>
                             <div>
-                                <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Your Name</label>
-                                <input type="text" id="commentAuthor" required placeholder="John Doe" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none">
+                                <label class="block text-xs font-bold uppercase mb-1">Your Name</label>
+                                <input type="text" id="commentAuthor" required placeholder="John Doe" class="w-full px-4 py-2.5 border-3 border-black bg-white dark:bg-neutral-800 text-sm font-bold">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Your Comment</label>
-                                <textarea id="commentText" required rows="3" placeholder="Write your thoughts..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none"></textarea>
+                                <label class="block text-xs font-bold uppercase mb-1">Your Comment</label>
+                                <textarea id="commentText" required rows="3" placeholder="Write thoughts..." class="w-full px-4 py-2.5 border-3 border-black bg-white dark:bg-neutral-800 text-sm font-bold"></textarea>
                             </div>
-                            <button type="submit" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl text-sm transition">
-                                Submit Comment
+                            <button type="submit" class="brut-btn px-6 py-3 bg-brutLime text-black text-xs uppercase">
+                                POST COMMENT
                             </button>
                         </form>
                     </div>
@@ -505,8 +541,7 @@
                 postId,
                 author,
                 comment,
-                date: new Date().toISOString().split('T')[0],
-                status: 'Approved' // Auto approve for demo
+                date: new Date().toISOString().split('T')[0]
             };
 
             if (window.firebaseDB) {
@@ -516,78 +551,49 @@
                 comments.push({ id: 'c_' + Date.now(), ...newComment });
             }
 
-            showNotification("Comment Submitted", "Your comment has been posted successfully.");
+            showNotification("SUCCESS", "Comment posted successfully.");
             router.navigate('postDetail', postId);
         }
 
         function renderSetupGuideView() {
             return `
-                <div class="max-w-4xl mx-auto px-4 py-12 w-full space-y-8">
-                    <div class="text-center">
-                        <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 mb-4 inline-block">
-                            <i class="fa-solid fa-book"></i> Official Deployment Documentation
+                <div class="max-w-4xl mx-auto px-4 py-12 w-full space-y-8 font-mono">
+                    <div class="text-center pb-6 border-b-4 border-black dark:border-white">
+                        <span class="px-4 py-1.5 text-xs font-bold bg-brutYellow text-black border-2 border-black mb-4 inline-block uppercase">
+                            OFFICIAL DOCUMENTATION
                         </span>
-                        <h1 class="text-3xl sm:text-4xl font-extrabold mb-3">GitHub & Firebase Setup Guide</h1>
-                        <p class="text-slate-500 dark:text-slate-400">Step-by-step instructions to host your WordPress CMS on GitHub Pages while keeping Firebase keys secure.</p>
+                        <h1 class="text-3xl sm:text-5xl font-black uppercase mb-3">SETUP & DEPLOYMENT</h1>
+                        <p class="text-xs font-bold text-gray-600 dark:text-gray-400">HOST YOUR BRUTALIST CMS ON GITHUB PAGES WITH SECURE FIREBASE CONFIG.</p>
                     </div>
 
-                    <div class="glass-panel p-8 rounded-3xl border border-slate-200 dark:border-slate-800 space-y-6">
+                    <div class="brut-panel p-8 space-y-8">
                         <div class="flex items-start gap-4">
-                            <div class="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold flex-shrink-0">1</div>
+                            <div class="w-10 h-10 bg-black text-brutYellow border-2 border-black flex items-center justify-center font-black flex-shrink-0 text-lg">1</div>
                             <div>
-                                <h3 class="font-bold text-lg mb-1">Create Separate Firebase Config File</h3>
-                                <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">To keep your API keys secure and prevent exposure on public GitHub repositories, create a file named <code class="bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded text-indigo-500 font-mono">firebase-config.js</code> in your project root folder with the following structure:</p>
-                                <pre class="bg-slate-900 text-emerald-400 p-4 rounded-2xl text-xs font-mono overflow-x-auto"><code>// firebase-config.js
-export const firebaseConfig = {
+                                <h3 class="font-black text-lg uppercase mb-1">CREATE `+`firebase-config.js`+`</h3>
+                                <p class="text-xs font-bold text-gray-600 dark:text-gray-400 mb-3">Keep API keys safe by putting them in a separate configuration file in root folder:</p>
+                                <pre class="bg-black text-brutLime p-4 text-xs font-mono overflow-x-auto border-2 border-white"><code>export const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
   authDomain: "wordpress-c971f.firebaseapp.com",
   databaseURL: "https://wordpress-c971f-default-rtdb.firebaseio.com",
   projectId: "wordpress-c971f",
   storageBucket: "wordpress-c971f.firebasestorage.app",
   messagingSenderId: "828580995189",
-  appId: "YOUR_APP_ID",
-  measurementId: "G-CQQEJLR5TY"
+  appId: "YOUR_APP_ID"
 };</code></pre>
                             </div>
                         </div>
 
                         <div class="flex items-start gap-4">
-                            <div class="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold flex-shrink-0">2</div>
+                            <div class="w-10 h-10 bg-black text-brutYellow border-2 border-black flex items-center justify-center font-black flex-shrink-0 text-lg">2</div>
                             <div>
-                                <h3 class="font-bold text-lg mb-1">Push Code to GitHub Repository</h3>
-                                <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Initialize Git in your folder, add your files, and push to GitHub. Ensure <code class="bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded text-indigo-500 font-mono">firebase-config.js</code> is included in your local repository (or added to <code class="bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded text-indigo-500 font-mono">.gitignore</code> if you wish to inject it via GitHub Actions/Secrets).</p>
-                                <pre class="bg-slate-900 text-slate-200 p-4 rounded-2xl text-xs font-mono overflow-x-auto"><code>git init
+                                <h3 class="font-black text-lg uppercase mb-1">PUSH TO GITHUB</h3>
+                                <pre class="bg-black text-white p-4 text-xs font-mono overflow-x-auto border-2 border-white"><code>git init
 git add .
-git commit -m "Initial WordPress CMS commit by @vexornull"
-git branch -M main
-git remote add origin https://github.com/vexornull/your-repo-name.git
-git push -u origin main</code></pre>
+git commit -m "Brutal CMS update by @vexornull"
+git push origin main</code></pre>
                             </div>
                         </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold flex-shrink-0">3</div>
-                            <div>
-                                <h3 class="font-bold text-lg mb-1">Enable GitHub Pages</h3>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">Go to your GitHub repository settings &rarr; <strong>Pages</strong> &rarr; Select source branch as <code class="bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded text-indigo-500 font-mono">main</code> (root) and save. Your WordPress CMS will be live instantly!</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold flex-shrink-0">4</div>
-                            <div>
-                                <h3 class="font-bold text-lg mb-1">Admin Dashboard Credentials</h3>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">Click on <strong>Admin Login</strong> in the header navigation and use:</p>
-                                <div class="mt-2 p-3 bg-indigo-50 dark:bg-indigo-950/50 rounded-xl border border-indigo-200 dark:border-indigo-800 text-sm space-y-1">
-                                    <div><strong>Username:</strong> <code class="text-indigo-600 font-bold">forbidden</code></div>
-                                    <div><strong>Password:</strong> <code class="text-indigo-600 font-bold">forbidden</code></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="text-center text-xs text-slate-400">
-                        Designed & Developed by <a href="https://github.com/vexornull" target="_blank" class="text-indigo-600 font-semibold hover:underline">Tanveer Hussain (@vexornull)</a>
                     </div>
                 </div>
             `;
@@ -595,58 +601,56 @@ git push -u origin main</code></pre>
 
         function renderDashboardView() {
             return `
-                <div class="flex flex-col lg:flex-row flex-grow">
-                    <!-- Admin Sidebar -->
-                    <aside class="w-full lg:w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 flex flex-col justify-between">
+                <div class="flex flex-col lg:flex-row flex-grow font-mono">
+                    <aside class="w-full lg:w-72 border-r-4 border-black dark:border-white bg-white dark:bg-neutral-900 p-6 flex flex-col justify-between">
                         <div class="space-y-6">
-                            <div class="flex items-center gap-3 px-3 py-2 bg-indigo-50 dark:bg-indigo-950/60 rounded-2xl">
-                                <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold">A</div>
+                            <div class="flex items-center gap-3 p-3 bg-brutYellow text-black border-3 border-black shadow-[3px_3px_0px_0px_#000]">
+                                <div class="w-10 h-10 bg-black text-white flex items-center justify-center font-black">A</div>
                                 <div>
-                                    <h4 class="font-bold text-sm">Administrator</h4>
-                                    <p class="text-xs text-emerald-500 font-medium flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Online</p>
+                                    <h4 class="font-black text-xs uppercase">ADMINISTRATOR</h4>
+                                    <p class="text-[10px] font-bold text-emerald-700">● LIVE SESSION</p>
                                 </div>
                             </div>
-                            <nav class="space-y-1 text-sm font-medium">
-                                <button onclick="switchAdminTab('posts')" id="tabBtn-posts" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-indigo-600 text-white shadow-md shadow-indigo-600/20 transition">
-                                    <i class="fa-solid fa-file-lines w-5"></i> Manage Posts
+                            <nav class="space-y-2 text-xs font-bold">
+                                <button onclick="switchAdminTab('posts')" id="tabBtn-posts" class="w-full flex items-center gap-3 px-4 py-3 bg-brutYellow text-black border-3 border-black shadow-[3px_3px_0px_0px_#000]">
+                                    <i class="fa-solid fa-file-lines w-5"></i> MANAGE POSTS (${posts.length})
                                 </button>
-                                <button onclick="switchAdminTab('settings')" id="tabBtn-settings" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-                                    <i class="fa-solid fa-gear w-5"></i> Site Settings
+                                <button onclick="switchAdminTab('settings')" id="tabBtn-settings" class="w-full flex items-center gap-3 px-4 py-3 bg-white dark:bg-neutral-800 border-3 border-black dark:border-white">
+                                    <i class="fa-solid fa-gear w-5"></i> SITE SETTINGS
                                 </button>
-                                <button onclick="switchAdminTab('comments')" id="tabBtn-comments" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-                                    <i class="fa-solid fa-comments w-5"></i> Comments
+                                <button onclick="switchAdminTab('comments')" id="tabBtn-comments" class="w-full flex items-center gap-3 px-4 py-3 bg-white dark:bg-neutral-800 border-3 border-black dark:border-white">
+                                    <i class="fa-solid fa-comments w-5"></i> COMMENTS (${comments.length})
                                 </button>
-                                <button onclick="switchAdminTab('analytics')" id="tabBtn-analytics" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-                                    <i class="fa-solid fa-chart-line w-5"></i> Analytics
+                                <button onclick="switchAdminTab('analytics')" id="tabBtn-analytics" class="w-full flex items-center gap-3 px-4 py-3 bg-white dark:bg-neutral-800 border-3 border-black dark:border-white">
+                                    <i class="fa-solid fa-chart-line w-5"></i> ANALYTICS
                                 </button>
                             </nav>
                         </div>
-                        <div class="pt-6 border-t border-slate-200 dark:border-slate-800">
-                            <button onclick="adminLogout()" class="w-full py-3 bg-rose-50 dark:bg-rose-950/30 text-rose-600 hover:bg-rose-100 font-semibold rounded-xl text-sm transition flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-power-off"></i> Logout
+                        <div class="pt-6 border-t-2 border-black dark:border-white">
+                            <button onclick="adminLogout()" class="brut-btn w-full py-3 bg-brutPink text-white text-xs uppercase">
+                                <i class="fa-solid fa-power-off"></i> LOGOUT
                             </button>
                         </div>
                     </aside>
 
-                    <!-- Admin Main Content Area -->
-                    <div class="flex-grow p-6 lg:p-10 bg-slate-50 dark:bg-slate-900/50">
+                    <div class="flex-grow p-6 lg:p-10 bg-[#F4F4F0] dark:bg-neutral-950">
                         <!-- Posts Tab -->
                         <div id="adminTab-posts" class="admin-tab space-y-6">
                             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                                 <div>
-                                    <h2 class="text-2xl font-bold">Manage Blog Posts & Pages</h2>
-                                    <p class="text-sm text-slate-500">Create, edit, or delete dynamic articles stored in Firebase.</p>
+                                    <h2 class="text-3xl font-black uppercase">MANAGE POSTS</h2>
+                                    <p class="text-xs font-bold text-gray-600">Direct CRUD operations connected to Firebase DB.</p>
                                 </div>
-                                <button onclick="openPostModal()" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md shadow-indigo-600/30 transition flex items-center gap-2">
-                                    <i class="fa-solid fa-plus"></i> Add New Post
+                                <button onclick="openPostModal()" class="brut-btn px-5 py-3 bg-brutLime text-black text-xs uppercase flex items-center gap-2">
+                                    <i class="fa-solid fa-plus"></i> ADD NEW POST
                                 </button>
                             </div>
 
-                            <div class="glass-panel rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                            <div class="brut-panel overflow-hidden">
                                 <div class="overflow-x-auto">
-                                    <table class="w-full text-left border-collapse">
+                                    <table class="w-full text-left border-collapse text-xs">
                                         <thead>
-                                            <tr class="border-b border-slate-200 dark:border-slate-800 text-xs font-semibold uppercase text-slate-400 bg-slate-100 dark:bg-slate-800/50">
+                                            <tr class="border-b-4 border-black dark:border-white bg-brutYellow text-black font-black uppercase">
                                                 <th class="p-4">Title</th>
                                                 <th class="p-4">Category</th>
                                                 <th class="p-4">Author</th>
@@ -654,16 +658,16 @@ git push -u origin main</code></pre>
                                                 <th class="p-4 text-right">Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="divide-y divide-slate-200 dark:divide-slate-800 text-sm">
-                                            ${posts.map(p => `
-                                                <tr class="hover:bg-slate-100/50 dark:hover:bg-slate-800/50 transition">
-                                                    <td class="p-4 font-semibold">${p.title}</td>
-                                                    <td class="p-4"><span class="px-2.5 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950 text-indigo-600 text-xs">${p.category || 'General'}</span></td>
-                                                    <td class="p-4 text-slate-500">${p.author || 'Tanveer Hussain'}</td>
-                                                    <td class="p-4 text-slate-400">${p.date}</td>
+                                        <tbody class="divide-y-2 divide-black dark:divide-white font-bold">
+                                            ${posts.length === 0 ? `<tr><td colspan="5" class="p-8 text-center text-gray-500">No posts found. Create one above!</td></tr>` : posts.map(p => `
+                                                <tr class="hover:bg-brutYellow/20 transition">
+                                                    <td class="p-4 font-black">${p.title}</td>
+                                                    <td class="p-4"><span class="px-2 py-0.5 bg-brutCyan text-black border border-black">${p.category || 'GENERAL'}</span></td>
+                                                    <td class="p-4">${p.author || 'Tanveer'}</td>
+                                                    <td class="p-4">${p.date}</td>
                                                     <td class="p-4 text-right space-x-2">
-                                                        <button onclick="editPost('${p.id}')" class="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-lg text-xs font-medium transition"><i class="fa-solid fa-pen"></i></button>
-                                                        <button onclick="deletePost('${p.id}')" class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs font-medium transition"><i class="fa-solid fa-trash"></i></button>
+                                                        <button onclick="editPost('${p.id}')" class="px-2.5 py-1.5 bg-brutYellow text-black border-2 border-black font-bold">EDIT</button>
+                                                        <button onclick="deletePost('${p.id}')" class="px-2.5 py-1.5 bg-brutPink text-white border-2 border-black font-bold">DEL</button>
                                                     </td>
                                                 </tr>
                                             `).join('')}
@@ -676,28 +680,28 @@ git push -u origin main</code></pre>
                         <!-- Settings Tab -->
                         <div id="adminTab-settings" class="admin-tab space-y-6 hidden">
                             <div>
-                                <h2 class="text-2xl font-bold">Site Settings & Customization</h2>
-                                <p class="text-sm text-slate-500">Configure global WordPress site branding and headers.</p>
+                                <h2 class="text-3xl font-black uppercase">SITE SETTINGS</h2>
+                                <p class="text-xs font-bold text-gray-600">Customize global CMS headers.</p>
                             </div>
-                            <form onsubmit="saveSiteSettings(event)" class="glass-panel p-8 rounded-3xl border border-slate-200 dark:border-slate-800 space-y-6 max-w-3xl">
+                            <form onsubmit="saveSiteSettings(event)" class="brut-panel p-8 space-y-6 max-w-3xl">
                                 <div>
-                                    <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Site Title</label>
-                                    <input type="text" id="settingTitle" value="${siteSettings.title}" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none">
+                                    <label class="block text-xs font-bold uppercase mb-1">Site Title</label>
+                                    <input type="text" id="settingTitle" value="${siteSettings.title}" required class="w-full px-4 py-3 border-3 border-black bg-white dark:bg-neutral-800 text-xs font-bold">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Site Tagline</label>
-                                    <input type="text" id="settingTagline" value="${siteSettings.tagline}" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none">
+                                    <label class="block text-xs font-bold uppercase mb-1">Tagline</label>
+                                    <input type="text" id="settingTagline" value="${siteSettings.tagline}" required class="w-full px-4 py-3 border-3 border-black bg-white dark:bg-neutral-800 text-xs font-bold">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Hero Title</label>
-                                    <input type="text" id="settingHeroTitle" value="${siteSettings.heroTitle}" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none">
+                                    <label class="block text-xs font-bold uppercase mb-1">Hero Title</label>
+                                    <input type="text" id="settingHeroTitle" value="${siteSettings.heroTitle}" required class="w-full px-4 py-3 border-3 border-black bg-white dark:bg-neutral-800 text-xs font-bold">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Hero Subtitle</label>
-                                    <textarea id="settingHeroSubtitle" rows="2" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none">${siteSettings.heroSubtitle}</textarea>
+                                    <label class="block text-xs font-bold uppercase mb-1">Hero Subtitle</label>
+                                    <textarea id="settingHeroSubtitle" rows="2" required class="w-full px-4 py-3 border-3 border-black bg-white dark:bg-neutral-800 text-xs font-bold">${siteSettings.heroSubtitle}</textarea>
                                 </div>
-                                <button type="submit" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl text-sm shadow-lg shadow-indigo-600/30 transition">
-                                    Save Settings
+                                <button type="submit" class="brut-btn px-8 py-3 bg-brutLime text-black text-xs uppercase">
+                                    SAVE SETTINGS
                                 </button>
                             </form>
                         </div>
@@ -705,69 +709,61 @@ git push -u origin main</code></pre>
                         <!-- Comments Tab -->
                         <div id="adminTab-comments" class="admin-tab space-y-6 hidden">
                             <div>
-                                <h2 class="text-2xl font-bold">Manage Comments & Messages</h2>
-                                <p class="text-sm text-slate-500">Approve or delete user interactions across articles.</p>
+                                <h2 class="text-3xl font-black uppercase">COMMENTS</h2>
+                                <p class="text-xs font-bold text-gray-600">Manage reader feedback.</p>
                             </div>
-                            <div class="glass-panel rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
-                                <div class="overflow-x-auto">
-                                    <table class="w-full text-left border-collapse">
-                                        <thead>
-                                            <tr class="border-b border-slate-200 dark:border-slate-800 text-xs font-semibold uppercase text-slate-400 bg-slate-100 dark:bg-slate-800/50">
-                                                <th class="p-4">Author</th>
-                                                <th class="p-4">Comment</th>
-                                                <th class="p-4">Date</th>
-                                                <th class="p-4 text-right">Actions</th>
+                            <div class="brut-panel overflow-hidden">
+                                <table class="w-full text-left border-collapse text-xs">
+                                    <thead>
+                                        <tr class="border-b-4 border-black dark:border-white bg-brutYellow text-black font-black uppercase">
+                                            <th class="p-4">Author</th>
+                                            <th class="p-4">Comment</th>
+                                            <th class="p-4">Date</th>
+                                            <th class="p-4 text-right">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y-2 divide-black font-bold">
+                                        ${comments.length === 0 ? `<tr><td colspan="4" class="p-8 text-center text-gray-500">No comments recorded.</td></tr>` : comments.map(c => `
+                                            <tr>
+                                                <td class="p-4 font-black">${c.author}</td>
+                                                <td class="p-4 max-w-xs truncate">${c.comment}</td>
+                                                <td class="p-4">${c.date}</td>
+                                                <td class="p-4 text-right">
+                                                    <button onclick="deleteComment('${c.id}')" class="px-2.5 py-1 bg-brutPink text-white border-2 border-black">DELETE</button>
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody class="divide-y divide-slate-200 dark:divide-slate-800 text-sm">
-                                            ${comments.map(c => `
-                                                <tr class="hover:bg-slate-100/50 dark:hover:bg-slate-800/50 transition">
-                                                    <td class="p-4 font-semibold">${c.author}</td>
-                                                    <td class="p-4 text-slate-600 dark:text-slate-300 max-w-xs truncate">${c.comment}</td>
-                                                    <td class="p-4 text-slate-400">${c.date}</td>
-                                                    <td class="p-4 text-right">
-                                                        <button onclick="deleteComment('${c.id}')" class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs font-medium transition"><i class="fa-solid fa-trash"></i> Delete</button>
-                                                    </td>
-                                                </tr>
-                                            `).join('')}
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
                         <!-- Analytics Tab -->
                         <div id="adminTab-analytics" class="admin-tab space-y-6 hidden">
                             <div>
-                                <h2 class="text-2xl font-bold">Analytics & Statistics</h2>
-                                <p class="text-sm text-slate-500">Real-time engagement metrics for your WordPress site.</p>
+                                <h2 class="text-3xl font-black uppercase">ANALYTICS</h2>
+                                <p class="text-xs font-bold text-gray-600">Performance and metrics.</p>
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div class="glass-panel p-6 rounded-3xl border border-slate-200 dark:border-slate-800 flex items-center gap-4">
-                                    <div class="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 flex items-center justify-center text-2xl font-bold">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </div>
+                                <div class="brut-panel p-6 flex items-center gap-4">
+                                    <div class="w-14 h-14 bg-brutYellow border-3 border-black flex items-center justify-center text-xl font-black">👁️</div>
                                     <div>
-                                        <span class="text-xs text-slate-400 uppercase font-semibold">Total Page Views</span>
-                                        <h3 class="text-2xl font-extrabold">${analytics.pageViews}</h3>
+                                        <span class="text-xs font-bold uppercase text-gray-500">Page Views</span>
+                                        <h3 class="text-2xl font-black">${analytics.pageViews}</h3>
                                     </div>
                                 </div>
-                                <div class="glass-panel p-6 rounded-3xl border border-slate-200 dark:border-slate-800 flex items-center gap-4">
-                                    <div class="w-14 h-14 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center text-2xl font-bold">
-                                        <i class="fa-solid fa-users"></i>
-                                    </div>
+                                <div class="brut-panel p-6 flex items-center gap-4">
+                                    <div class="w-14 h-14 bg-brutCyan border-3 border-black flex items-center justify-center text-xl font-black">👥</div>
                                     <div>
-                                        <span class="text-xs text-slate-400 uppercase font-semibold">Unique Visitors</span>
-                                        <h3 class="text-2xl font-extrabold">${analytics.uniqueVisitors}</h3>
+                                        <span class="text-xs font-bold uppercase text-gray-500">Unique Visitors</span>
+                                        <h3 class="text-2xl font-black">${analytics.uniqueVisitors}</h3>
                                     </div>
                                 </div>
-                                <div class="glass-panel p-6 rounded-3xl border border-slate-200 dark:border-slate-800 flex items-center gap-4">
-                                    <div class="w-14 h-14 rounded-2xl bg-amber-50 dark:bg-amber-950 text-amber-600 flex items-center justify-center text-2xl font-bold">
-                                        <i class="fa-solid fa-file-lines"></i>
-                                    </div>
+                                <div class="brut-panel p-6 flex items-center gap-4">
+                                    <div class="w-14 h-14 bg-brutLime border-3 border-black flex items-center justify-center text-xl font-black">📝</div>
                                     <div>
-                                        <span class="text-xs text-slate-400 uppercase font-semibold">Active Articles</span>
-                                        <h3 class="text-2xl font-extrabold">${posts.length}</h3>
+                                        <span class="text-xs font-bold uppercase text-gray-500">Total Posts</span>
+                                        <h3 class="text-2xl font-black">${posts.length}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -775,35 +771,33 @@ git push -u origin main</code></pre>
                     </div>
                 </div>
 
-                <!-- Add/Edit Post Modal -->
-                <div id="postModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden">
-                    <div class="glass-panel w-full max-w-xl p-8 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 relative">
-                        <button onclick="closePostModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition">
-                            <i class="fa-solid fa-xmark text-xl"></i>
-                        </button>
-                        <h3 id="postModalTitle" class="text-xl font-bold mb-6">Create New Blog Post</h3>
-                        <form onsubmit="handlePostFormSubmit(event)" class="space-y-4">
+                <!-- Post Modal -->
+                <div id="postModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 hidden">
+                    <div class="brut-panel w-full max-w-xl p-8 relative font-mono">
+                        <button onclick="closePostModal()" class="absolute top-4 right-4 w-10 h-10 bg-brutPink text-white border-2 border-black font-bold flex items-center justify-center">✕</button>
+                        <h3 id="postModalTitle" class="text-2xl font-black uppercase mb-6">NEW POST</h3>
+                        <form onsubmit="handlePostFormSubmit(event)" class="space-y-4 text-xs font-bold">
                             <input type="hidden" id="editPostId">
                             <div>
-                                <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Post Title</label>
-                                <input type="text" id="postTitleInput" required placeholder="Enter article title..." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none">
+                                <label class="block uppercase mb-1">Title</label>
+                                <input type="text" id="postTitleInput" required placeholder="Article title..." class="w-full px-4 py-3 border-3 border-black bg-white dark:bg-neutral-800">
                             </div>
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Category</label>
-                                    <input type="text" id="postCategoryInput" required placeholder="Announcement, Tutorial..." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none">
+                                    <label class="block uppercase mb-1">Category</label>
+                                    <input type="text" id="postCategoryInput" required placeholder="Tutorial..." class="w-full px-4 py-3 border-3 border-black bg-white dark:bg-neutral-800">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Author</label>
-                                    <input type="text" id="postAuthorInput" value="Tanveer Hussain" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none">
+                                    <label class="block uppercase mb-1">Author</label>
+                                    <input type="text" id="postAuthorInput" value="Tanveer Hussain" required class="w-full px-4 py-3 border-3 border-black bg-white dark:bg-neutral-800">
                                 </div>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Content</label>
-                                <textarea id="postContentInput" required rows="5" placeholder="Write post content..." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-indigo-600 outline-none"></textarea>
+                                <label class="block uppercase mb-1">Content</label>
+                                <textarea id="postContentInput" required rows="5" placeholder="Write content..." class="w-full px-4 py-3 border-3 border-black bg-white dark:bg-neutral-800 font-sans"></textarea>
                             </div>
-                            <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 transition">
-                                Save Post to Firebase
+                            <button type="submit" class="brut-btn w-full py-3 bg-brutLime text-black uppercase">
+                                SAVE POST TO FIREBASE
                             </button>
                         </form>
                     </div>
@@ -814,13 +808,13 @@ git push -u origin main</code></pre>
         function switchAdminTab(tabName) {
             document.querySelectorAll('.admin-tab').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('aside nav button').forEach(el => {
-                el.classList.remove('bg-indigo-600', 'text-white', 'shadow-md', 'shadow-indigo-600/20');
-                el.classList.add('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-100', 'dark:hover:bg-slate-800');
+                el.classList.remove('bg-brutYellow', 'shadow-[3px_3px_0px_0px_#000]');
+                el.classList.add('bg-white', 'dark:bg-neutral-800');
             });
             document.getElementById(`adminTab-${tabName}`).classList.remove('hidden');
             const activeBtn = document.getElementById(`tabBtn-${tabName}`);
-            activeBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-md', 'shadow-indigo-600/20');
-            activeBtn.classList.remove('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-100', 'dark:hover:bg-slate-800');
+            activeBtn.classList.add('bg-brutYellow', 'shadow-[3px_3px_0px_0px_#000]');
+            activeBtn.classList.remove('bg-white', 'dark:bg-neutral-800');
         }
 
         function initDashboardTabs() {
@@ -830,7 +824,7 @@ git push -u origin main</code></pre>
         function openPostModal(post = null) {
             const modal = document.getElementById('postModal');
             document.getElementById('editPostId').value = post ? post.id : '';
-            document.getElementById('postModalTitle').innerText = post ? 'Edit Blog Post' : 'Create New Blog Post';
+            document.getElementById('postModalTitleinnerText' || 'postModalTitle').innerText = post ? 'EDIT POST' : 'NEW POST';
             document.getElementById('postTitleInput').value = post ? post.title : '';
             document.getElementById('postCategoryInput').value = post ? post.category : '';
             document.getElementById('postAuthorInput').value = post ? post.author : 'Tanveer Hussain';
@@ -871,7 +865,7 @@ git push -u origin main</code></pre>
             }
 
             closePostModal();
-            showNotification("Success", "Post saved successfully to Firebase cloud database.");
+            showNotification("SUCCESS", "Post successfully synced to Firebase.");
             router.navigate('dashboard');
         }
 
@@ -887,7 +881,7 @@ git push -u origin main</code></pre>
             } else {
                 posts = posts.filter(p => p.id !== id);
             }
-            showNotification("Deleted", "Post removed successfully.");
+            showNotification("DELETED", "Post removed from database.");
             router.navigate('dashboard');
         }
 
@@ -904,7 +898,7 @@ git push -u origin main</code></pre>
             }
 
             document.getElementById('navSiteTitle').innerText = siteSettings.title;
-            showNotification("Settings Saved", "Global WordPress site settings updated successfully.");
+            showNotification("SAVED", "Global site settings updated.");
         }
 
         function deleteComment(id) {
@@ -914,11 +908,10 @@ git push -u origin main</code></pre>
             } else {
                 comments = comments.filter(c => c.id !== id);
             }
-            showNotification("Comment Deleted", "Comment removed successfully.");
+            showNotification("DELETED", "Comment removed.");
             router.navigate('dashboard');
         }
 
-        // Initialize App on Window Load
         window.onload = function() {
             syncDataFromFirebase();
             router.navigate('home');
