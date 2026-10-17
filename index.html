@@ -143,7 +143,9 @@
 
                 <nav class="hidden md:flex items-center space-x-4 text-sm font-bold font-mono">
                     <button onclick="router.navigate('home')" class="px-4 py-2 bg-white dark:bg-neutral-800 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] transition">HOME</button>
+                    <a href="./about/" class="px-4 py-2 bg-white dark:bg-neutral-800 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] transition">ABOUT</a>
                     <button onclick="router.navigate('blog')" class="px-4 py-2 bg-white dark:bg-neutral-800 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] transition">ARTICLES</button>
+                    <a href="./contact/" class="px-4 py-2 bg-white dark:bg-neutral-800 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] transition">CONTACT</a>
                 </nav>
 
                 <div class="flex items-center space-x-3">
@@ -301,7 +303,6 @@
             const p = document.getElementById('loginPass').value.trim();
             const errDiv = document.getElementById('loginError');
 
-            // NEW UPDATED PASSWORD
             if (u === "Admin12345" && p === "##03422124300##") {
                 isAdminLoggedIn = true;
                 localStorage.setItem("vexornull_admin_logged", "true");
@@ -577,7 +578,6 @@
         function handleSearch(val) {
             searchQuery = val;
             renderCurrentView();
-            // Refocus input after re-render
             setTimeout(() => {
                 const el = document.getElementById('searchInput');
                 if(el) {
