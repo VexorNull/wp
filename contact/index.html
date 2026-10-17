@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact | Tanveer Hussain (@vexornull)</title>
     <meta name="description" content="Get in touch with Tanveer Hussain for cloud architecture collaborations or system inquiries.">
-    <link rel="icon" type="image/png" href="https://vexornull.github.io/favicon/favicon.png">
+    <link rel="icon" type="image/png" href="../favicon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -104,10 +104,10 @@
                     <label class="block text-xs font-bold uppercase mb-1">Message Body</label>
                     <textarea id="contactMsg" required rows="4" placeholder="Write your message here..." class="w-full px-4 py-3 border-3 border-black dark:border-white bg-[#F4F4F0] dark:bg-neutral-800 text-xs font-bold focus:outline-none font-sans"></textarea>
                 </div>
-                <div id="contactSuccess" class="bg-brutLime text-black p-3 text-xs font-bold border-2 border-black hidden">
-                    MESSAGE DISPATCHED SUCCESSFULLY. WE WILL RESPOND SHORTLY.
-                </div>
-                <button type="submit" class="brut-btn w-full py-3.5 bg-brutYellow text-black uppercase text-xs">
+                
+                <div id="contactStatus" class="p-3 text-xs font-bold border-2 border-black hidden"></div>
+
+                <button type="submit" id="submitBtn" class="brut-btn w-full py-3.5 bg-brutYellow text-black uppercase text-xs flex items-center justify-center gap-2">
                     SEND TRANSMISSION
                 </button>
             </form>
@@ -127,13 +127,44 @@
     </footer>
 
     <script>
-        function handleContactSubmit(e) {
+        async function handleContactSubmit(e) {
             e.preventDefault();
-            document.getElementById('contactSuccess').classList.remove('hidden');
-            e.target.reset();
-            setTimeout(() => {
-                document.getElementById('contactSuccess').classList.add('hidden');
-            }, 4000);
+            const btn = document.getElementById('submitBtn');
+            const statusDiv = document.getElementById('contactStatus');
+            
+            const name = document.getElementById('contactName').value.trim();
+            const email = document.getElementById('contactEmail').value.trim();
+            const message = document.getElementById('contactMsg').value.trim();
+
+            btn.disabled = true;
+            btn.innerText = "TRANSMITTING...";
+            statusDiv.classList.add('hidden');
+
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, message })
+                });
+
+                const resData = await response.json();
+
+                if (response.ok) {
+                    statusDiv.className = "p-3 text-xs font-bold border-2 border-black bg-brutLime text-black";
+                    statusDiv.innerText = "TRANSMISSION LOGGED TO RECEIVED.TXT SUCCESSFULLY.";
+                    statusDiv.classList.remove('hidden');
+                    e.target.reset();
+                } else {
+                    throw new Error(resData.message || "Failed to log transmission");
+                }
+            } catch (error) {
+                statusDiv.className = "p-3 text-xs font-bold border-2 border-black bg-brutPink text-white";
+                statusDiv.innerText = "ERROR: " + error.message;
+                statusDiv.classList.remove('hidden');
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "SEND TRANSMISSION";
+            }
         }
     </script>
 </body>
