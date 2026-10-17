@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Tanveer Hussain (@vexornull)</title>
+    <meta name="description" content="Learn more about Tanveer Hussain - Cloud Architect, Full-Stack Developer, and Brutalist UI Engineer.">
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    },
+                    colors: {
+                        brutYellow: '#FFE600',
+                        brutLime: '#00FF66',
+                        brutPink: '#FF007F',
+                        brutCyan: '#00F0FF',
+                        brutDark: '#121212',
+                    },
+                    boxShadow: {
+                        'brut': '4px 4px 0px 0px #000000',
+                        'brut-dark': '4px 4px 0px 0px #FFFFFF',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .brut-panel { 
+            background: #FFFFFF; 
+            border: 4px solid #000000; 
+            box-shadow: 4px 4px 0px 0px #000000; 
+        }
+        .dark .brut-panel { 
+            background: #1A1A1A; 
+            border: 4px solid #FFFFFF; 
+            box-shadow: 4px 4px 0px 0px #FFFFFF; 
+        }
+        .brut-btn {
+            border: 3px solid #000000;
+            box-shadow: 3px 3px 0px 0px #000000;
+            font-weight: 700;
+            transition: all 0.05s ease;
+        }
+        .dark .brut-btn {
+            border: 3px solid #FFFFFF;
+            box-shadow: 3px 3px 0px 0px #FFFFFF;
+        }
+    </style>
+</head>
+<body class="h-full bg-[#F4F4F0] dark:bg-brutDark text-black dark:text-white font-sans antialiased flex flex-col justify-between selection:bg-brutYellow selection:text-black">
+
+    <div class="flex-grow flex flex-col">
+        <!-- Navigation Header -->
+        <header class="sticky top-0 z-50 border-b-4 border-black dark:border-white bg-brutYellow dark:bg-neutral-900 transition-colors">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                <div class="flex items-center space-x-3 cursor-pointer group" onclick="window.location.href='../'">
+                    <div class="w-12 h-12 border-3 border-black dark:border-white bg-brutPink flex items-center justify-center text-white shadow-[3px_3px_0px_0px_#000] font-black text-xl">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <div>
+                        <span class="font-black text-xl tracking-tighter uppercase font-mono">TANVEER HUSSAIN</span>
+                        <p class="text-xs font-bold font-mono bg-black text-white dark:bg-white dark:text-black px-1 inline-block mt-0.5">@VEXORNULL INFRASTRUCTURE</p>
+                    </div>
+                </div>
+
+                <nav class="hidden md:flex items-center space-x-4 text-sm font-bold font-mono">
+                    <a href="../" class="px-4 py-2 bg-white dark:bg-neutral-800 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_#000]">HOME</a>
+                    <a href="../about/" class="px-4 py-2 bg-brutLime text-black border-2 border-black shadow-[2px_2px_0px_0px_#000]">ABOUT</a>
+                    <a href="../contact/" class="px-4 py-2 bg-white dark:bg-neutral-800 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_#000]">CONTACT</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-4xl mx-auto px-4 py-16 w-full font-mono">
+            <div class="mb-10 text-center pb-6 border-b-4 border-black dark:border-white">
+                <span class="bg-black text-white px-3 py-1 text-xs uppercase font-bold inline-block mb-3">SYSTEM ARCHITECT PROFILE</span>
+                <h1 class="text-4xl sm:text-6xl font-black uppercase tracking-tight">ABOUT VEXORNULL</h1>
+            </div>
+
+            <div class="brut-panel p-8 sm:p-12 space-y-6 font-sans text-base leading-relaxed mb-12">
+                <h2 class="text-2xl font-black uppercase font-mono tracking-tight text-black dark:text-white">ENGINEERED FOR SPEED & ABSOLUTE CONTROL</h2>
+                <p>
+                    Hello! I am <strong class="bg-brutYellow px-1 text-black font-black">Tanveer Hussain</strong>, a Full-Stack Developer and Cloud Architecture enthusiast operating under the alias <strong class="font-mono bg-black text-white px-1">@vexornull</strong>.
+                </p>
+                <p>
+                    I build high-performance custom cloud CMS engines, brutalist web applications, and modular serverless systems from scratch. My core philosophy relies on eliminating digital bloat, optimizing latency, and ensuring complete autonomy over data infrastructures.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 font-mono text-xs">
+                    <div class="p-4 bg-brutYellow/20 border-2 border-black dark:border-white">
+                        <h3 class="font-black mb-1 uppercase">⚡ Core Specialization</h3>
+                        <p class="font-sans text-sm">Cloud Observability, Custom CMS Engines, Full-Stack Development & Brutalist UI Design.</p>
+                    </div>
+                    <div class="p-4 bg-brutCyan/20 border-2 border-black dark:border-white">
+                        <h3 class="font-black mb-1 uppercase">🛡️ Tech Stack</h3>
+                        <p class="font-sans text-sm">JavaScript, Tailwind CSS, Firebase RTDB, Vercel, GitHub Actions & OTLP Infrastructure.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <a href="../contact/" class="brut-btn inline-block px-8 py-4 bg-brutLime text-black uppercase text-sm font-mono">
+                    GET IN TOUCH WITH ME &rarr;
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <footer class="border-t-4 border-black dark:border-white bg-white dark:bg-neutral-900 py-8 px-4 sm:px-8 mt-auto font-mono">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm font-bold">
+            <div class="flex items-center gap-2 flex-wrap">
+                <span class="bg-black text-white dark:bg-white dark:text-black px-2 py-1">&copy; 2026 VEXORNULL ENGINE</span>
+                <span>Engineered by Tanveer Hussain</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="https://github.com/vexornull" target="_blank" class="px-3 py-1 bg-brutCyan border-2 border-black text-black hover:bg-black hover:text-white transition"><i class="fa-brands fa-github"></i> GITHUB</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
