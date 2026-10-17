@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://vexornull.github.io/wp/</loc>
+    <loc>https://tanveer-hussain-cms.vercel.app/</loc>
     <lastmod>2026-10-18</lastmod>
     <priority>1.00</priority>
   </url>
   <url>
-    <loc>https://vexornull.github.io/wp/about/</loc>
+    <loc>https://tanveer-hussain-cms.vercel.app/about/</loc>
     <lastmod>2026-10-18</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://vexornull.github.io/wp/contact/</loc>
+    <loc>https://tanveer-hussain-cms.vercel.app/contact/</loc>
     <lastmod>2026-10-18</lastmod>
     <priority>0.80</priority>
   </url>
